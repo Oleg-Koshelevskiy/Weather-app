@@ -1,11 +1,18 @@
-import InputCity from "../components/InputCity"
+import InputCity from "../components/InputCity";
+import WeatherDashboard from "../components/WeatherDashboard";
+import classes from "./Main.module.css";
 
 const Main = () => {
-    return (
-        <section>
-            <InputCity/>
-        </section>
-    )
-}
+  const coordsHandler = (lat, lon) => {
+    console.log(lat, lon);
+  };
 
-export default Main
+  return (
+    <section className={classes.main}>
+      <InputCity getCoords={coordsHandler} />
+      <WeatherDashboard />
+    </section>
+  );
+};
+
+export default Main;

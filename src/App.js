@@ -1,7 +1,14 @@
-import Header from "./layout/Header"
+import { Fragment } from "react";
+import Header from "./layout/Header";
+import Main from "./layout/Main";
 
 const App = () => {
-    return <Header />
-}
+  return (
+    <Fragment>
+      <Header />
+      <Main />
+    </Fragment>
+  );
+};
 
-export default App
+export default App;

@@ -1,0 +1,12 @@
+.button {
+  background-color: burlywood;
+  padding: 0.5rem 1rem;
+  margin-left: 1rem;
+  border-radius: 10px;
+}
+
+.button:hover {
+  color: blue;
+  background-color: aliceblue;
+  cursor: pointer;
+}
