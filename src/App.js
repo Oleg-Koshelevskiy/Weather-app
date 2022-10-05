@@ -1,5 +1,7 @@
+import Header from "./layout/Header"
+
 const App = () => {
-    return <h1>Weather app</h1>
+    return <Header/>
 }
 
 export default App
