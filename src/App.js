@@ -1,7 +1,7 @@
 import Header from "./layout/Header"
 
 const App = () => {
-    return <Header/>
+    return <Header />
 }
 
 export default App
