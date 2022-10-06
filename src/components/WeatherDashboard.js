@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 
-const WeatherDashboard = () => {
+const WeatherDashboard = (props) => {
   return (
     <Fragment>
-      <div>Температура:</div>
+      <div>Хмарність:</div>
     </Fragment>
   );
 };
