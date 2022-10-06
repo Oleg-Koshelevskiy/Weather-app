@@ -14,7 +14,7 @@ const InputCity = (props) => {
     setCity(inputCity.current.value);
 
     fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`
     )
       .then((response) => response.json())
       .then((data) => props.getCoords(data[0].lat, data[0].lon));
