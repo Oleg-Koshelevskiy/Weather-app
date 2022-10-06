@@ -5,10 +5,10 @@ import classes from "./Main.module.css";
 
 const Main = () => {
   const [currentWeatherData, setCurrentWeatherData] = useState({});
+  const [showWeather, setShowWeather] = useState(false);
   const lang = "ua";
 
   const coordsHandler = (lat, lon) => {
-    console.log(lat, lon);
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang}`
     )
@@ -27,15 +27,17 @@ const Main = () => {
           windSpeed: data.wind.speed,
           windDeg: data.wind.deg,
         });
+        setShowWeather(true);
       });
   };
-
-  console.log(currentWeatherData);
 
   return (
     <section className={classes.main}>
       <InputCity getCoords={coordsHandler} />
-      <WeatherDashboard current={currentWeatherData} />
+      <WeatherDashboard
+        showWeather={showWeather}
+        current={currentWeatherData}
+      />
     </section>
   );
 };
