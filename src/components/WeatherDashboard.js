@@ -7,7 +7,7 @@ const WeatherDashboard = (props) => {
 
   const clouds = props.current.clouds;
   const dateObj = new Date(props.current.date * 1000);
-  const date = dateObj.getDay();
+  const date = dateObj.getDate();
   const month = dateObj.getMonth() + 1;
   const year = dateObj.getFullYear();
   let hours = dateObj.getHours();

@@ -20,12 +20,38 @@ const InputCity = (props) => {
       .then((data) => props.getCoords(data[0].lat, data[0].lon));
   };
 
+  const getCurrentCoords = () => {
+    function success(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      props.getCoords(lat, lon);
+      console.log(lat, lon);
+      fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=default`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setCity(`${data.countryName}, ${data.city}`);
+          console.log(data.city);
+        });
+    }
+
+    function error() {
+      alert("Unable to retrieve your location");
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error);
+  };
+
   return (
     <div className={classes.input}>
-      <form onSubmit={getCityCoords}>
+      <form onSubmit={getCityCoords} className={classes.form}>
         <input type="text" placeholder="Введіть місто" ref={inputCity} />
         <Button type="submit">Дізнатись прогноз</Button>
       </form>
+      <Button type="submit" onClick={getCurrentCoords}>
+        Згідно координат
+      </Button>
       <h3>{city}</h3>
     </div>
   );
