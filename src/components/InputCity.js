@@ -6,6 +6,14 @@ const InputCity = (props) => {
   const [city, setCity] = useState("Місто не визначено");
   const inputCity = useRef();
 
+  let forecastType;
+
+  if (props.currentType) {
+    forecastType = "Показати на 5 днів";
+  } else {
+    forecastType = "Показати поточний";
+  }
+
   const getCityCoords = (event) => {
     event.preventDefault();
 
@@ -25,14 +33,13 @@ const InputCity = (props) => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
       props.getCoords(lat, lon);
-      console.log(lat, lon);
+
       fetch(
         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=default`
       )
         .then((res) => res.json())
         .then((data) => {
           setCity(`${data.countryName}, ${data.city}`);
-          console.log(data.city);
         });
     }
 
@@ -51,6 +58,9 @@ const InputCity = (props) => {
       </form>
       <Button type="submit" onClick={getCurrentCoords}>
         Згідно координат
+      </Button>
+      <Button type="submit" onClick={props.changeForecastType}>
+        {forecastType}
       </Button>
       <h3>{city}</h3>
     </div>

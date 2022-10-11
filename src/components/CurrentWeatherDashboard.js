@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 
-const WeatherDashboard = (props) => {
+const CurrentWeatherDashboard = (props) => {
   if (!props.showWeather) {
     return <h2>Введіть назву міста</h2>;
   }
@@ -18,8 +18,8 @@ const WeatherDashboard = (props) => {
   if (minutes <= 9) {
     minutes = "0" + minutes;
   }
-  const tempFact = props.current.tempFact;
-  const tempFeels = props.current.tempFeels;
+  const tempFact = Math.round(props.current.tempFact);
+  const tempFeels = Math.round(props.current.tempFeels);
   const press = props.current.press;
   let sunriseHours = new Date(props.current.sunrise * 1000).getHours();
   if (sunriseHours <= 9) {
@@ -39,7 +39,7 @@ const WeatherDashboard = (props) => {
   }
   const sky = props.current.sky;
   const icon = `http://openweathermap.org/img/wn/${props.current.icon}@2x.png`;
-  const windSpeed = props.current.windSpeed;
+  const windSpeed = Math.round(props.current.windSpeed);
   let windDeg = props.current.windDeg;
   if (windDeg >= 22.5 && windDeg < 67.5) windDeg = "ПН-СХ";
   if (windDeg >= 67.5 && windDeg < 112.5) windDeg = "СХ";
@@ -80,4 +80,4 @@ const WeatherDashboard = (props) => {
   );
 };
 
-export default WeatherDashboard;
+export default CurrentWeatherDashboard;
