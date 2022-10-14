@@ -19,20 +19,21 @@ const InputCity = (props) => {
 
     const cityName = inputCity.current.value;
 
-    setCity(inputCity.current.value);
+    setCity(cityName);
 
     fetch(
       `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`
     )
       .then((response) => response.json())
       .then((data) => props.getCoords(data[0].lat, data[0].lon));
+
+    inputCity.current.value = "";
   };
 
   const getCurrentCoords = () => {
     function success(position) {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
-      props.getCoords(lat, lon);
 
       fetch(
         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=default`
@@ -40,6 +41,7 @@ const InputCity = (props) => {
         .then((res) => res.json())
         .then((data) => {
           setCity(`${data.countryName}, ${data.city}`);
+          props.getCoords(lat, lon);
         });
     }
 

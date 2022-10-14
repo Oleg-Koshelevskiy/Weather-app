@@ -9,6 +9,7 @@ const Main = () => {
   const [longWeatherData, setLongWeatherData] = useState([]);
   const [showWeather, setShowWeather] = useState(false);
   const [currentType, setCurrentType] = useState(true);
+
   const lang = "ua";
 
   const forecastTypeHandler = () => {
