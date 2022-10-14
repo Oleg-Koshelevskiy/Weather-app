@@ -16,9 +16,9 @@ const Main = () => {
     setCurrentType((prevState) => (prevState = !prevState));
   };
 
-  const coordsHandler = (lat, lon) => {
-    if (currentType) {
-      fetch(
+  const coordsHandler = async (lat, lon) => {
+    
+      await fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang}`
       )
         .then((res) => res.json())
@@ -35,11 +35,10 @@ const Main = () => {
             icon: data.weather[0].icon,
             windSpeed: data.wind.speed,
             windDeg: data.wind.deg,
-          });
-          setShowWeather(true);
+          });          
         });
-    } else {
-      fetch(
+     
+      await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang}`
       )
         .then((response) => response.json())
@@ -47,7 +46,7 @@ const Main = () => {
           setLongWeatherData(data.list);
           setShowWeather(true);
         });
-    }
+    
   };
 
   return (
