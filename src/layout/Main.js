@@ -3,12 +3,14 @@ import InputCity from "../components/InputCity";
 import CurrentWeatherDashboard from "../components/CurrentWeatherDashboard";
 import LongWeatherDashboard from "../components/LongWeatherDashboard";
 import classes from "./Main.module.css";
+import LeafletMap from "../components/LeafletMap";
 
 const Main = () => {
   const [currentWeatherData, setCurrentWeatherData] = useState({});
   const [longWeatherData, setLongWeatherData] = useState([]);
   const [showWeather, setShowWeather] = useState(false);
   const [currentType, setCurrentType] = useState(true);
+  const [coords, setCoords] = useState({});
 
   const lang = "ua";
 
@@ -17,36 +19,36 @@ const Main = () => {
   };
 
   const coordsHandler = async (lat, lon) => {
-    
-      await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setCurrentWeatherData({
-            clouds: data.clouds.all,
-            date: data.dt,
-            tempFact: data.main.temp,
-            tempFeels: data.main.feels_like,
-            press: data.main.pressure,
-            sunrise: data.sys.sunrise,
-            sunset: data.sys.sunset,
-            sky: data.weather[0].description,
-            icon: data.weather[0].icon,
-            windSpeed: data.wind.speed,
-            windDeg: data.wind.deg,
-          });          
+    setCoords({ latitude: lat, longitude: lon });
+
+    await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setCurrentWeatherData({
+          clouds: data.clouds.all,
+          date: data.dt,
+          tempFact: data.main.temp,
+          tempFeels: data.main.feels_like,
+          press: data.main.pressure,
+          sunrise: data.sys.sunrise,
+          sunset: data.sys.sunset,
+          sky: data.weather[0].description,
+          icon: data.weather[0].icon,
+          windSpeed: data.wind.speed,
+          windDeg: data.wind.deg,
         });
-     
-      await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setLongWeatherData(data.list);
-          setShowWeather(true);
-        });
-    
+      });
+
+    await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setLongWeatherData(data.list);
+        setShowWeather(true);
+      });
   };
 
   return (
@@ -56,6 +58,7 @@ const Main = () => {
         changeForecastType={forecastTypeHandler}
         currentType={currentType}
       />
+      {showWeather && <LeafletMap coords={coords} />}
       {currentType && (
         <CurrentWeatherDashboard
           showWeather={showWeather}
