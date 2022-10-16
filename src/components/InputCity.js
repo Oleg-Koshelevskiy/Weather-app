@@ -1,9 +1,8 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Button from "../UI/Button";
 import classes from "./InputCity.module.css";
 
 const InputCity = (props) => {
-  const [city, setCity] = useState("Місто не визначено");
   const inputCity = useRef();
 
   let forecastType;
@@ -19,13 +18,14 @@ const InputCity = (props) => {
 
     const cityName = inputCity.current.value;
 
-    setCity(cityName);
-
     fetch(
       `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`
     )
       .then((response) => response.json())
-      .then((data) => props.getCoords(data[0].lat, data[0].lon));
+      .then((data) => {
+        props.getCoords(data[0].lat, data[0].lon);
+        props.getCity(`${data[0].country}, ${data[0].local_names.uk}`);
+      });
 
     inputCity.current.value = "";
   };
@@ -40,7 +40,7 @@ const InputCity = (props) => {
       )
         .then((res) => res.json())
         .then((data) => {
-          setCity(`${data.countryName}, ${data.city}`);
+          props.getCity(`${data.countryName}, ${data.city}`);
           props.getCoords(lat, lon);
         });
     }
@@ -64,7 +64,7 @@ const InputCity = (props) => {
       <Button type="submit" onClick={props.changeForecastType}>
         {forecastType}
       </Button>
-      <h3>{city}</h3>
+      <h3>{props.city}</h3>
     </div>
   );
 };

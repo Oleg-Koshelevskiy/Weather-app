@@ -12,7 +12,7 @@ const LeafletMap = (props) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <Marker position={[lat, lon]}>
-        <Popup>Обрана локація.</Popup>
+        <Popup>{props.city}</Popup>
       </Marker>
     </MapContainer>
   );

@@ -1,5 +1,12 @@
 .header {
-    text-align: center;
-    color: blue;
-    margin-bottom: 2rem;
+  text-align: center;
+  color: blue;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 430px) {
+  .header {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
 }

@@ -11,11 +11,16 @@ const Main = () => {
   const [showWeather, setShowWeather] = useState(false);
   const [currentType, setCurrentType] = useState(true);
   const [coords, setCoords] = useState({});
+  const [city, setCity] = useState("Місто не визначено");
 
   const lang = "ua";
 
   const forecastTypeHandler = () => {
     setCurrentType((prevState) => (prevState = !prevState));
+  };
+
+  const cityHandler = (name) => {
+    setCity(name);
   };
 
   const coordsHandler = async (lat, lon) => {
@@ -57,8 +62,10 @@ const Main = () => {
         getCoords={coordsHandler}
         changeForecastType={forecastTypeHandler}
         currentType={currentType}
+        getCity={cityHandler}
+        city={city}
       />
-      {showWeather && <LeafletMap coords={coords} />}
+      {showWeather && <LeafletMap city={city} coords={coords} />}
       {currentType && (
         <CurrentWeatherDashboard
           showWeather={showWeather}

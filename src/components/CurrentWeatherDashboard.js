@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import styles from "./CurrentWeatherDashboard.module.css";
 
 const CurrentWeatherDashboard = (props) => {
   if (!props.showWeather) {
@@ -52,7 +52,7 @@ const CurrentWeatherDashboard = (props) => {
   } else windDeg = "ПН";
 
   return (
-    <Fragment>
+    <div className={styles.font}>
       <div>
         Дата: {date}-{month}-{year}
       </div>
@@ -76,7 +76,7 @@ const CurrentWeatherDashboard = (props) => {
       <div>
         Вітер: {windSpeed} м/с, {windDeg}
       </div>
-    </Fragment>
+    </div>
   );
 };
 
