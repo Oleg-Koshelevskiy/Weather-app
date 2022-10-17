@@ -1,9 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap");
 
 body {
-    background: url('./images/background.jpg') no-repeat;
-    background-size: cover;
-    font-family: 'Roboto', sans-serif;
-    background-position: center;
-    height: 100vh;
+  background: url("./images/background.jpg") no-repeat;
+  background-size: cover;
+  font-family: "Roboto", sans-serif;
+  background-position: center;
+  height: 98vh;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: blue rgba(255, 166, 0, 0.5);
+}
+
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 20px;
+}
+
+*::-webkit-scrollbar-track {
+  /* background: rgba(255, 166, 0, 0.5); */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 221, 0, 0.5);
+  border-radius: 20px;
+  border: 1px solid orange;
 }

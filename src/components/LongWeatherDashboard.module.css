@@ -1,20 +1,21 @@
 .dashboard {
   display: flex;
-  background-image: url('../images/autumn.jpg');
+  background-image: url("../images/autumn.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   padding: 1rem;
   border-radius: 1rem;
-  overflow-y: scroll;
+  overflow-x: scroll;
+  overflow-y: hidden;
   max-width: 550px;
-  margin: 0  auto; 
+  margin: 0 auto;
 }
 
 .default {
   text-align: center;
   color: rgb(255, 255, 255);
   margin: 0 auto;
-  max-width: 632px;
+  max-width: 582px;
   background-color: rgba(76, 179, 248, 0.37);
   border-radius: 1rem;
   padding: 1rem 0;
