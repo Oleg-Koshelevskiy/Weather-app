@@ -53,9 +53,9 @@ const InputCity = (props) => {
   };
 
   return (
-    <div className={classes.input}>
+    <div className={classes.component}>
       <form onSubmit={getCityCoords} className={classes.form}>
-        <input type="text" placeholder="Введіть місто" ref={inputCity} />
+        <input className={classes.input} type="text" placeholder="Введіть місто" ref={inputCity} />
         <Button type="submit">Дізнатись прогноз</Button>
       </form>
       <Button type="submit" onClick={getCurrentCoords}>
@@ -63,8 +63,8 @@ const InputCity = (props) => {
       </Button>
       <Button type="submit" onClick={props.changeForecastType}>
         {forecastType}
-      </Button>
-      <h3>{props.city}</h3>
+      </Button><br/>
+      <h3 className={classes.city} >{props.city}</h3>
     </div>
   );
 };
