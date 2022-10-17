@@ -1,9 +1,11 @@
 .item {
+  color: white;
   margin: 0.5rem;
-  background-color: white;
+  background-color: rgba(253, 213, 153, 0.411);
   padding: 0.5rem;
   border-radius: 0.5rem;
   font-size: 0.8rem;
+  margin: 0.25rem;  
 }
 .img {
   width: 3rem;

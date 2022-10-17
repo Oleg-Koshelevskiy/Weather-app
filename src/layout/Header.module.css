@@ -1,7 +1,12 @@
 .header {
   text-align: center;
-  color: blue;
-  margin-bottom: 2rem;
+  color: rgb(255, 255, 255);
+  margin: 0 auto;
+  max-width: 582px;
+  background-color: rgba(76, 179, 248, 0.37);
+  border-radius: 1rem;
+  padding: 0.5rem 0;
+
 }
 
 @media (max-width: 430px) {

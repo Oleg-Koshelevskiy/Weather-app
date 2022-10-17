@@ -2,7 +2,7 @@ import styles from "./CurrentWeatherDashboard.module.css";
 
 const CurrentWeatherDashboard = (props) => {
   if (!props.showWeather) {
-    return <h2>Введіть назву міста</h2>;
+    return <h2 className={styles.default}>Введіть назву міста</h2>;
   }
 
   const clouds = props.current.clouds;
@@ -52,30 +52,37 @@ const CurrentWeatherDashboard = (props) => {
   } else windDeg = "ПН";
 
   return (
-    <div className={styles.font}>
-      <div>
-        Дата: {date}-{month}-{year}
+    <div className={styles.container}>
+      <div className={styles.row}>
+        <div>
+          Дата: {date}-{month}-{year}
+        </div>
+        <div>
+          Час: {hours}:{minutes}
+        </div>
+        <div>
+         Схід сонця: {sunriseHours}:{sunriseMins}
+        </div>
+        <div>
+           Захід сонця: {sunsetHours}:{sunsetMins}
+        </div>
+        <div>Тиск: {press}</div> 
+        <div>Фактично: {tempFact} &deg;С </div>
+        <div>Відчувається: {tempFeels} &deg;C</div>  
       </div>
-      <div>
-        Час: {hours}:{minutes}
+      <div className={styles.row}>
+        <div>Хмарність: {clouds}%</div>
+                     
+        <div>{sky}</div>
+        <div >
+          <img src={icon} alt={sky} className={styles.img}/>
+        </div>
+        <div>
+          Вітер: {windSpeed} м/с, {windDeg}
+        </div>
       </div>
-      <div>Хмарність: {clouds}%</div>
-      <div>Фактично: {tempFact} &deg;С </div>
-      <div>Відчувається: {tempFeels} &deg;C</div>
-      <div>Тиск: {press}</div>
-      <div>
-        Схід сонця: {sunriseHours}:{sunriseMins}
-      </div>
-      <div>
-        Захід сонця: {sunsetHours}:{sunsetMins}
-      </div>
-      <div>{sky}</div>
-      <div>
-        <img src={icon} alt={sky} />
-      </div>
-      <div>
-        Вітер: {windSpeed} м/с, {windDeg}
-      </div>
+      
+      
     </div>
   );
 };

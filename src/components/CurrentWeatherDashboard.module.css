@@ -1,9 +1,42 @@
-.font {
+.container {
   font-size: 1rem;
+  color: white;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-image: url('../images/autumn.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-width: 550px;
+  margin: 0  auto; 
+} 
+
+.row {
+  background-color: rgba(197, 132, 12, 0.596);
+  padding: 00.25rem;
+  border-radius: 00.5rem;
 }
 
+.default {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  margin: 0 auto;
+  max-width: 632px;
+  background-color: rgba(76, 179, 248, 0.37);
+  border-radius: 1rem;
+  padding: 1rem 0;
+}
+
+
 @media (max-width: 430px) {
-  .font {
-    font-size: 0.6rem;
+  .container {
+    font-size: 0.8rem;
+    padding: 0.5rem; 
+  }
+  .img {
+    height: 80px;
+    
   }
 }
