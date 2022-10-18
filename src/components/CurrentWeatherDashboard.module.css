@@ -15,18 +15,8 @@
 
 .row {
   background-color: rgba(197, 132, 12, 0.596);
-  padding: 00.25rem;
-  border-radius: 00.5rem;
-}
-
-.default {
-  text-align: center;
-  color: rgb(255, 255, 255);
-  margin: 0 auto;
-  max-width: 582px;
-  background-color: rgba(76, 179, 248, 0.37);
-  border-radius: 1rem;
-  padding: 1rem 0;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
 }
 
 @media (max-width: 430px) {

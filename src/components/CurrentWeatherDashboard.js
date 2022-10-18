@@ -1,8 +1,9 @@
+import CityNotChosen from "./CityNotChosen";
 import styles from "./CurrentWeatherDashboard.module.css";
 
 const CurrentWeatherDashboard = (props) => {
   if (!props.showWeather) {
-    return <h2 className={styles.default}>Введіть назву міста</h2>;
+    return <CityNotChosen />;
   }
 
   const clouds = props.current.clouds;
@@ -61,28 +62,26 @@ const CurrentWeatherDashboard = (props) => {
           Час: {hours}:{minutes}
         </div>
         <div>
-         Схід сонця: {sunriseHours}:{sunriseMins}
+          Схід сонця: {sunriseHours}:{sunriseMins}
         </div>
         <div>
-           Захід сонця: {sunsetHours}:{sunsetMins}
+          Захід сонця: {sunsetHours}:{sunsetMins}
         </div>
-        <div>Тиск: {press}</div> 
+        <div>Тиск: {press}</div>
         <div>Фактично: {tempFact} &deg;С </div>
-        <div>Відчувається: {tempFeels} &deg;C</div>  
+        <div>Відчувається: {tempFeels} &deg;C</div>
       </div>
       <div className={styles.row}>
         <div>Хмарність: {clouds}%</div>
-                     
+
         <div>{sky}</div>
-        <div >
-          <img src={icon} alt={sky} className={styles.img}/>
+        <div>
+          <img src={icon} alt={sky} className={styles.img} />
         </div>
         <div>
           Вітер: {windSpeed} м/с, {windDeg}
         </div>
       </div>
-      
-      
     </div>
   );
 };

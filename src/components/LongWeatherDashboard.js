@@ -1,9 +1,10 @@
 import LongWeatherItem from "./LongWeatherItem";
 import styles from "./LongWeatherDashboard.module.css";
+import CityNotChosen from "./CityNotChosen";
 
 const LongWeatherDashboard = (props) => {
   if (!props.showWeather) {
-    return <h2 className={styles.default}>Введіть назву міста</h2>;
+    return <CityNotChosen />;
   }
 
   const item = props.long.map((item) => (
