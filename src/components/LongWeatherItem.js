@@ -16,7 +16,8 @@ const LongWeatherItem = (props) => {
   }
   const temp = Math.round(props.item.main.temp);
   const humidity = props.item.main.humidity;
-  const icon = `http://openweathermap.org/img/wn/${props.item.weather[0].icon}@2x.png`;
+  // const icon = `http://openweathermap.org/img/wn/${props.item.weather[0].icon}@2x.png`;
+  const icon = `/icons/${props.item.weather[0].icon}.png`;
   const sky = props.item.weather[0].description;
   const wind = Math.round(props.item.wind.speed);
 

@@ -39,7 +39,7 @@ const CurrentWeatherDashboard = (props) => {
     sunsetMins = "0" + sunsetMins;
   }
   const sky = props.current.sky;
-  const icon = `http://openweathermap.org/img/wn/${props.current.icon}@2x.png`;
+  const icon = `/icons/${props.item.weather[0].icon}.png`;
   const windSpeed = Math.round(props.current.windSpeed);
   let windDeg = props.current.windDeg;
   if (windDeg >= 22.5 && windDeg < 67.5) windDeg = "ПН-СХ";
