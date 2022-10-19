@@ -2,6 +2,7 @@ import CityNotChosen from "./CityNotChosen";
 import styles from "./CurrentWeatherDashboard.module.css";
 
 const CurrentWeatherDashboard = (props) => {
+  console.log(props.current);
   if (!props.showWeather) {
     return <CityNotChosen />;
   }
@@ -39,7 +40,7 @@ const CurrentWeatherDashboard = (props) => {
     sunsetMins = "0" + sunsetMins;
   }
   const sky = props.current.sky;
-  const icon = `/icons/${props.item.weather[0].icon}.png`;
+  const icon = `/icons/${props.current.icon}.png`;
   const windSpeed = Math.round(props.current.windSpeed);
   let windDeg = props.current.windDeg;
   if (windDeg >= 22.5 && windDeg < 67.5) windDeg = "ПН-СХ";

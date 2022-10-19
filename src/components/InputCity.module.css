@@ -2,13 +2,16 @@
   background-image: url("../images/input-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 1rem;
+  padding: 1.9rem 1rem;
   border-radius: 1rem;
   max-width: 550px;
   margin: 1rem auto;
 }
 .form {
-  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .input {
@@ -16,7 +19,7 @@
   font-weight: bold;
   background-color: rgb(255, 234, 206);
   padding: 0.5rem 1rem;
-  width: 10rem;
+  width: 8rem;
   margin: 0.5rem;
   border-radius: 10px;
   border: 1px rgb(255, 115, 0) solid;
@@ -25,6 +28,23 @@
 .input:focus {
   background-color: rgb(253, 253, 219);
   outline: none;
+}
+
+.gps {
+  height: 2rem;
+  width: 2rem;
+  background: center / contain no-repeat url("../images/gps.png"),
+    rgba(76, 179, 248);
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.gps:focus,
+.gps:hover {
+  transform: scale(1.2);
+  background: center / contain no-repeat url("../images/gps.png"),
+    rgb(134, 205, 252);
+  cursor: pointer;
 }
 
 .city {
@@ -45,7 +65,7 @@
     margin: 0.25rem;
   }
   .input {
-    width: 7rem;
+    width: 6rem;
     margin: 0.25rem;
   }
   .city {

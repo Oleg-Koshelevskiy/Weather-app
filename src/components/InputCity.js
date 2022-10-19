@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import Button from "../UI/Button";
-import classes from "./InputCity.module.css";
+import styles from "./InputCity.module.css";
 
 const InputCity = (props) => {
   const inputCity = useRef();
@@ -8,9 +8,9 @@ const InputCity = (props) => {
   let forecastType;
 
   if (props.currentType) {
-    forecastType = "Показати на 5 днів";
+    forecastType = "Поточний";
   } else {
-    forecastType = "Показати поточний";
+    forecastType = "На 5 днів";
   }
 
   const getCityCoords = (event) => {
@@ -53,18 +53,26 @@ const InputCity = (props) => {
   };
 
   return (
-    <div className={classes.component}>
-      <form onSubmit={getCityCoords} className={classes.form}>
-        <input className={classes.input} type="text" placeholder="Введіть місто" ref={inputCity} />
-        <Button type="submit">Дізнатись прогноз</Button>
+    <div className={styles.component}>
+      <form onSubmit={getCityCoords} className={styles.form}>
+        <button
+          className={styles.gps}
+          type="button"
+          onClick={getCurrentCoords}
+        />
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Введіть місто"
+          ref={inputCity}
+        />
+        <Button type="submit">Показати</Button>
       </form>
-      <Button type="submit" onClick={getCurrentCoords}>
-        Згідно координат
-      </Button>
       <Button type="submit" onClick={props.changeForecastType}>
         {forecastType}
-      </Button><br/>
-      <h3 className={classes.city} >{props.city}</h3>
+      </Button>
+      <br />
+      <h3 className={styles.city}>{props.city}</h3>
     </div>
   );
 };

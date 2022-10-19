@@ -3,10 +3,10 @@
   background-image: url("../images/autumn.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 1rem;
+  padding: 0.5rem;
   border-radius: 1rem;
   overflow-x: scroll;
   overflow-y: hidden;
-  max-width: 550px;
+  max-width: 566px;
   margin: 0 auto;
 }
