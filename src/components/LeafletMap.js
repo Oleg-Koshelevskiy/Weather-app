@@ -25,11 +25,10 @@ const LeafletMap = (props) => {
     );
   };
 
-  const GetClickedCoords = () => {
+  const GetClickedWeather = () => {
     const map = useMap();
     useMapEvents({
       click: (e) => {
-        console.log(e.latlng.lat, e.latlng.lng);
         setClickedCoords([e.latlng.lat, e.latlng.lng]);
       },
     });
@@ -37,10 +36,25 @@ const LeafletMap = (props) => {
 
     map.setView(clickedCoords);
 
+    const getClickedData = (e) => {
+      e.preventDefault();
+      const clickedLat = clickedCoords[0];
+      const clickedLon = clickedCoords[1];
+      fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${clickedLat}&longitude=${clickedLon}&localityLanguage=default`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          props.getCity(`${data.countryName}, ${data.city}`);
+          props.getCoords(clickedLat, clickedLon);
+        });
+      map.setView([lat, lon]);
+    };
+
     return (
       <Marker position={clickedCoords}>
         <Popup>
-          <button>Перейти</button>
+          <button onClick={getClickedData}>Показати</button>
         </Popup>
       </Marker>
     );
@@ -53,7 +67,7 @@ const LeafletMap = (props) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <Recenter />
-      <GetClickedCoords />
+      <GetClickedWeather />
     </MapContainer>
   );
 };

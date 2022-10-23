@@ -2,7 +2,6 @@ import CityNotChosen from "./CityNotChosen";
 import styles from "./CurrentWeatherDashboard.module.css";
 
 const CurrentWeatherDashboard = (props) => {
-  console.log(props.current);
   if (!props.showWeather) {
     return <CityNotChosen />;
   }
