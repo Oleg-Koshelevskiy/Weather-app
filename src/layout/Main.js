@@ -65,7 +65,14 @@ const Main = () => {
         getCity={cityHandler}
         city={city}
       />
-      {showWeather && <LeafletMap city={city} coords={coords} />}
+      {showWeather && (
+        <LeafletMap
+          city={city}
+          coords={coords}
+          getCoords={coordsHandler}
+          getCity={cityHandler}
+        />
+      )}
       {currentType && (
         <CurrentWeatherDashboard
           showWeather={showWeather}
