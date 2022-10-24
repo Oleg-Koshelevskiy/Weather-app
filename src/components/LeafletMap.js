@@ -18,6 +18,7 @@ const LeafletMap = (props) => {
   const Recenter = () => {
     const map = useMap();
     map.setView([lat, lon]);
+
     return (
       <Marker position={[lat, lon]}>
         <Popup>{props.city}</Popup>
