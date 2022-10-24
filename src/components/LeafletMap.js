@@ -32,8 +32,9 @@ const LeafletMap = (props) => {
       click: (e) => {
         setClickedCoords([e.latlng.lat, e.latlng.lng]);
       },
-    });
-    if (!clickedCoords) return;
+    }); 
+    
+    if (!clickedCoords) return
 
     map.setView(clickedCoords);
 
@@ -48,8 +49,7 @@ const LeafletMap = (props) => {
         .then((data) => {
           props.getCity(`${data.countryName}, ${data.city}`);
           props.getCoords(clickedLat, clickedLon);
-        });
-      map.setView([lat, lon]);
+        });      
     };
 
     return (
@@ -67,8 +67,8 @@ const LeafletMap = (props) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Recenter />
       <GetClickedWeather />
+      <Recenter />
     </MapContainer>
   );
 };

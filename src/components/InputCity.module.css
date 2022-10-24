@@ -34,8 +34,8 @@
   height: 2rem;
   width: 2rem;
   background: center / contain no-repeat url("../images/gps.png"),
-    rgba(76, 179, 248);
-  border: none;
+    rgb(255, 255, 255);
+  border: 1px rgb(255, 115, 0) solid;;
   border-radius: 0.5rem;
 }
 
