@@ -8,9 +8,9 @@ const InputCity = (props) => {
   let forecastType;
 
   if (props.currentType) {
-    forecastType = "Поточний";
-  } else {
     forecastType = "На 5 днів";
+  } else {
+    forecastType = "Поточний";
   }
 
   const getCityCoords = (event) => {
