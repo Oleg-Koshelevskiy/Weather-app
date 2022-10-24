@@ -31,7 +31,9 @@ const LeafletMap = (props) => {
       click: (e) => {
         setClickedCoords([e.latlng.lat, e.latlng.lng]);
       },
-    });    
+    }); 
+    
+    if (!clickedCoords) return
 
     map.setView(clickedCoords);
 
