@@ -6,9 +6,13 @@ const CurrentWeatherDashboard = (props) => {
     return <CityNotChosen />;
   }
 
+  let options = { weekday: "long" };
   const clouds = props.current.clouds;
   const dateObj = new Date(props.current.date * 1000);
   const date = dateObj.getDate();
+  const day = new Intl.DateTimeFormat("ua-UA", options).format(
+    props.current.date * 1000
+  );
   const month = dateObj.getMonth() + 1;
   const year = dateObj.getFullYear();
   let hours = dateObj.getHours();
@@ -21,7 +25,7 @@ const CurrentWeatherDashboard = (props) => {
   }
   const tempFact = Math.round(props.current.tempFact);
   const tempFeels = Math.round(props.current.tempFeels);
-  const press = props.current.press;
+  const press = Math.round(props.current.press * 0.75006375541921);
   let sunriseHours = new Date(props.current.sunrise * 1000).getHours();
   if (sunriseHours <= 9) {
     sunriseHours = "0" + sunriseHours;
@@ -58,6 +62,7 @@ const CurrentWeatherDashboard = (props) => {
         <div>
           Дата: {date}-{month}-{year}
         </div>
+        <div>{day}</div>
         <div>
           Час: {hours}:{minutes}
         </div>
@@ -67,20 +72,19 @@ const CurrentWeatherDashboard = (props) => {
         <div>
           Захід сонця: {sunsetHours}:{sunsetMins}
         </div>
-        <div>Тиск: {press}</div>
-        <div>Фактично: {tempFact} &deg;С </div>
-        <div>Відчувається: {tempFeels} &deg;C</div>
+        <div>Тиск: {press} mmHg</div>
+        <div>
+          Вітер: {windSpeed} м/с, {windDeg}
+        </div>
       </div>
       <div className={styles.row}>
         <div>Хмарність: {clouds}%</div>
-
         <div>{sky}</div>
         <div>
           <img src={icon} alt={sky} className={styles.img} />
         </div>
-        <div>
-          Вітер: {windSpeed} м/с, {windDeg}
-        </div>
+        <div>Фактично: {tempFact} &deg;С </div>
+        <div>Відчувається: {tempFeels} &deg;C</div>
       </div>
     </div>
   );

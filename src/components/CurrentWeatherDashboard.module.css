@@ -15,7 +15,7 @@
 
 .row {
   background-color: rgba(197, 132, 12, 0.596);
-  padding: 0.25rem;
+  padding: 1rem;
   border-radius: 0.5rem;
 }
 
@@ -26,6 +26,9 @@
 @media (max-width: 430px) {
   .container {
     font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+  .row {
     padding: 0.5rem;
   }
   .img {

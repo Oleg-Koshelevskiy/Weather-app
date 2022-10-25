@@ -28,7 +28,7 @@ const LeafletMap = (props) => {
       <Marker position={clickedCoords ? clickedCoords : [lat, lon]}>
         <Popup>
           {clickedCoords ? (
-            <button onClick={getClickedData}>Показати</button>
+            <button onClick={getClickedCoordsData}>Показати</button>
           ) : (
             props.city
           )}
@@ -37,7 +37,7 @@ const LeafletMap = (props) => {
     );
   };
 
-  const GetClickedWeather = () => {
+  const CoordsHandler = () => {
     const map = useMap();
     useMapEvents({
       click: (e) => {
@@ -52,7 +52,7 @@ const LeafletMap = (props) => {
     return null;
   };
 
-  const getClickedData = (e) => {
+  const getClickedCoordsData = (e) => {
     e.preventDefault();
     const clickedLat = clickedCoords[0];
     const clickedLon = clickedCoords[1];
@@ -73,7 +73,7 @@ const LeafletMap = (props) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <GetClickedWeather />
+      <CoordsHandler />
       <Recenter />
     </MapContainer>
   );
