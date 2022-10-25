@@ -10,26 +10,49 @@ import {
 import "./LeafletMap.css";
 
 const LeafletMap = (props) => {
-  const [clickedCoords, setClickedCoords] = useState();
-  const [marker, setMarker] = useState(false);
+  const [clickedCoords, setClickedCoords] = useState(null);
 
   const lat = props.coords.latitude;
   const lon = props.coords.longitude;
 
-  let chosenCoords;
+  const Recenter = () => {
+    const map = useMap();
 
-  // const Recenter = () => {
-  //   const map = useMap();
-  //   map.setView([lat, lon]);
+    if (!clickedCoords) {
+      map.setView([lat, lon]);
+    } else {
+      map.setView(clickedCoords);
+    }
 
-  //   return (
-  //     <Marker position={[lat, lon]}>
-  //       <Popup>{props.city}</Popup>
-  //     </Marker>
-  //   );
-  // };
+    return (
+      <Marker position={clickedCoords ? clickedCoords : [lat, lon]}>
+        <Popup>
+          {clickedCoords ? (
+            <button onClick={getClickedData}>Показати</button>
+          ) : (
+            props.city
+          )}
+        </Popup>
+      </Marker>
+    );
+  };
 
-  const getCoordsData = (e) => {
+  const GetClickedWeather = () => {
+    const map = useMap();
+    useMapEvents({
+      click: (e) => {
+        setClickedCoords([e.latlng.lat, e.latlng.lng]);
+      },
+    });
+
+    if (!clickedCoords) return;
+
+    map.setView(clickedCoords);
+
+    return null;
+  };
+
+  const getClickedData = (e) => {
     e.preventDefault();
     const clickedLat = clickedCoords[0];
     const clickedLon = clickedCoords[1];
@@ -40,29 +63,9 @@ const LeafletMap = (props) => {
       .then((data) => {
         props.getCity(`${data.countryName}, ${data.city}`);
         props.getCoords(clickedLat, clickedLon);
-        setMarker(false);
+        setClickedCoords(null);
       });
   };
-
-  const GetClickedWeather = () => {
-    const map = useMap();
-    useMapEvents({
-      click: (e) => {
-        setClickedCoords([e.latlng.lat, e.latlng.lng]);
-        setMarker(true);
-      },
-    });
-
-    if (!clickedCoords) return;
-
-    map.setView(clickedCoords);
-  };
-
-  if (!marker) {
-    chosenCoords = [lat, lon];
-  } else {
-    chosenCoords = clickedCoords;
-  }
 
   return (
     <MapContainer center={[lat, lon]} zoom={13} scrollWheelZoom={true}>
@@ -70,14 +73,8 @@ const LeafletMap = (props) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={chosenCoords}>
-        <Popup>
-          {<button onClick={getCoordsData}>Показати</button>}
-          {props.city}
-        </Popup>
-      </Marker>
-      {/* <GetClickedWeather />
-      <Recenter /> */}
+      <GetClickedWeather />
+      <Recenter />
     </MapContainer>
   );
 };
