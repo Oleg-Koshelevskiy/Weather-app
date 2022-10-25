@@ -10,26 +10,32 @@ import {
 import "./LeafletMap.css";
 
 const LeafletMap = (props) => {
-  const [clickedCoords, setClickedCoords] = useState();
+  const [clickedCoords, setClickedCoords] = useState(null);  
 
   const lat = props.coords.latitude;
   const lon = props.coords.longitude;
 
   const Recenter = () => {
     const map = useMap();
-    map.setView([lat, lon]);
+    
+    if (!clickedCoords) {
+      map.setView([lat, lon]);
+    } else {
+      map.setView(clickedCoords);
+    }         
+
     return (
-      <Marker position={[lat, lon]}>
-        <Popup>{props.city}</Popup>
+      <Marker position={clickedCoords ? clickedCoords : [lat, lon]}>
+        <Popup>{clickedCoords ? <button onClick={getClickedData}>Показати</button> : props.city }</Popup>
       </Marker>
-    );
+    )     
   };
 
   const GetClickedWeather = () => {
     const map = useMap();
     useMapEvents({
       click: (e) => {
-        setClickedCoords([e.latlng.lat, e.latlng.lng]);
+        setClickedCoords([e.latlng.lat, e.latlng.lng]);        
       },
     }); 
     
@@ -37,35 +43,30 @@ const LeafletMap = (props) => {
 
     map.setView(clickedCoords);
 
-    const getClickedData = (e) => {
-      e.preventDefault();
-      const clickedLat = clickedCoords[0];
-      const clickedLon = clickedCoords[1];
-      fetch(
-        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${clickedLat}&longitude=${clickedLon}&localityLanguage=default`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          props.getCity(`${data.countryName}, ${data.city}`);
-          props.getCoords(clickedLat, clickedLon);
-        });      
-    };
-
-    return (
-      <Marker position={clickedCoords}>
-        <Popup>
-          <button onClick={getClickedData}>Показати</button>
-        </Popup>
-      </Marker>
-    );
+    return null
   };
+
+  const getClickedData = (e) => {
+    e.preventDefault();
+    const clickedLat = clickedCoords[0];
+    const clickedLon = clickedCoords[1];
+    fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${clickedLat}&longitude=${clickedLon}&localityLanguage=default`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        props.getCity(`${data.countryName}, ${data.city}`);
+        props.getCoords(clickedLat, clickedLon);
+        setClickedCoords(null)        
+      });   
+  }
 
   return (
     <MapContainer center={[lat, lon]} zoom={13} scrollWheelZoom={true}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+      />      
       <GetClickedWeather />
       <Recenter />
     </MapContainer>
