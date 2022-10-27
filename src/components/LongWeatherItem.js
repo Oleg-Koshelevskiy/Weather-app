@@ -37,7 +37,7 @@ const LongWeatherItem = (props) => {
       <div>
         <img className={styles.img} src={icon} alt={sky} />
       </div>
-      <div>Вітер:</div>
+      <div>Вітер: </div>
       <div>{wind} м/с</div>
     </div>
   );
