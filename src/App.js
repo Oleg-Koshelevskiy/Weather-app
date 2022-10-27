@@ -1,6 +1,6 @@
 import Header from "./layout/Header";
 import Main from "./layout/Main";
-import LanguageContextProvider from "./store/language-context";
+import { LanguageContextProvider } from "./store/language-context";
 
 const App = () => {
   return (

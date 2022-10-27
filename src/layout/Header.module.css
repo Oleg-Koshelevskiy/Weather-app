@@ -5,19 +5,21 @@
   max-width: 582px;
   background-color: rgba(76, 179, 248, 0.37);
   border-radius: 1rem;
-  padding: 0.5rem 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
-.button{
+.text {
+}
+
+.button {
   color: white;
   font-weight: 700;
   height: 48px;
-  width: 64px;  
+  width: 64px;
   border: none;
-  border-radius: 0.5rem;  
+  border-radius: 0.5rem;
 }
 .button:hover {
   transform: scale(1.1);
@@ -25,13 +27,23 @@
 }
 
 .button-ukr {
-  background: url('../images/ukraine.png');
+  background: url("../images/ukr.png");
   background-position: center;
+  background-size: cover;
+}
+
+.button-uk {
+  background: url("../images/uk.png");
+  background-position: center;
+  background-size: cover;
 }
 
 @media (max-width: 430px) {
   .header {
     font-size: 1.2rem;
     margin-bottom: 0.8rem;
+  }
+  .text {
+    font-size: 1.5rem;
   }
 }
