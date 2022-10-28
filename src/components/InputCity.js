@@ -1,16 +1,29 @@
-import { useRef } from "react";
+import { useRef, useContext } from "react";
 import Button from "../UI/Button";
 import styles from "./InputCity.module.css";
+import LanguageContext from "../store/language-context";
 
 const InputCity = (props) => {
-  const inputCity = useRef();
+  const context = useContext(LanguageContext);
 
+  const inputCity = useRef();
+  
+  const ctx = context.languagePack[1];
+  
   let forecastType;
+  
+  let city 
+  
+  if (props.city) {
+    city = props.city
+  } else {
+    city = ctx.unchosenCity
+  }
 
   if (props.currentType) {
-    forecastType = "На 5 днів";
+    forecastType = `${ctx.btn5Days}`;
   } else {
-    forecastType = "Поточний";
+    forecastType = `${ctx.btnCurrent}`;
   }
 
   const getCityCoords = (event) => {
@@ -22,9 +35,16 @@ const InputCity = (props) => {
       `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`
     )
       .then((response) => response.json())
-      .then((data) => {
+      .then((data) => {  
+        let cityLocalName  
+        console.log(cityLocalName)    
+        if (context.languagePack[0] === 'ukr') {
+          cityLocalName = data[0].local_names.uk
+        } else {
+          cityLocalName = data[0].local_names.en
+        }
         props.getCoords(data[0].lat, data[0].lon);
-        props.getCity(`${data[0].country}, ${data[0].local_names.uk}`);
+        props.getCity(`${data[0].country}, ${cityLocalName}`);
       });
 
     inputCity.current.value = "";
@@ -35,8 +55,16 @@ const InputCity = (props) => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
 
+      let cityLocalName  
+        console.log(cityLocalName)    
+        if (context.languagePack[0] === 'ukr') {
+          cityLocalName = "default"
+        } else {
+          cityLocalName = 'en'
+        }
+
       fetch(
-        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=default`
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${cityLocalName}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -63,16 +91,16 @@ const InputCity = (props) => {
         <input
           className={styles.input}
           type="text"
-          placeholder="Введіть місто"
+          placeholder={ctx.placeholder}
           ref={inputCity}
         />
-        <Button type="submit">Показати</Button>
+        <Button type="submit">{ctx.btnShow}</Button>
       </form>
       <Button type="submit" onClick={props.changeForecastType}>
         {forecastType}
       </Button>
       <br />
-      <h3 className={styles.city}>{props.city}</h3>
+      <h3 className={styles.city}>{city}</h3>
     </div>
   );
 };

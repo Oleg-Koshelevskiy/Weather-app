@@ -1,7 +1,14 @@
+import { useContext } from "react";
+import LanguageContext from "../store/language-context";
 import CityNotChosen from "./CityNotChosen";
 import styles from "./CurrentWeatherDashboard.module.css";
 
 const CurrentWeatherDashboard = (props) => {
+
+  const context = useContext(LanguageContext);
+  const ctx = context.languagePack[1];
+
+
   if (!props.showWeather) {
     return <CityNotChosen />;
   }
@@ -10,7 +17,7 @@ const CurrentWeatherDashboard = (props) => {
   const clouds = props.current.clouds;
   const dateObj = new Date(props.current.date * 1000);
   const date = dateObj.getDate();
-  const day = new Intl.DateTimeFormat("ua-UA", options).format(
+  const day = new Intl.DateTimeFormat(`${ctx.dateFormat}`, options).format(
     props.current.date * 1000
   );
   const month = dateObj.getMonth() + 1;
@@ -46,45 +53,46 @@ const CurrentWeatherDashboard = (props) => {
   const icon = `/icons/${props.current.icon}.png`;
   const windSpeed = Math.round(props.current.windSpeed);
   let windDeg = props.current.windDeg;
-  if (windDeg >= 22.5 && windDeg < 67.5) windDeg = "ПН-СХ";
-  if (windDeg >= 67.5 && windDeg < 112.5) windDeg = "СХ";
-  if (windDeg >= 112.5 && windDeg < 157.5) windDeg = "ПД-СХ";
-  if (windDeg >= 157.5 && windDeg < 202.5) windDeg = "ПД";
-  if (windDeg >= 202.5 && windDeg < 247.5) windDeg = "ПД-ЗХ";
-  if (windDeg >= 247.5 && windDeg < 292.5) windDeg = "ЗХ";
+  console.log(ctx.wind.so)
+  if (windDeg >= 22.5 && windDeg < 67.5) windDeg = `${ctx.wind.ne}`;
+  if (windDeg >= 67.5 && windDeg < 112.5) windDeg = `${ctx.wind.e}`;
+  if (windDeg >= 112.5 && windDeg < 157.5) windDeg = `${ctx.wind.se}`;
+  if (windDeg >= 157.5 && windDeg < 202.5) windDeg = `${ctx.wind.s}`;
+  if (windDeg >= 202.5 && windDeg < 247.5) windDeg = `${ctx.wind.sw}`;
+  if (windDeg >= 247.5 && windDeg < 292.5) windDeg = `${ctx.wind.w}`;
   if (windDeg >= 292.5 && windDeg < 337.5) {
-    windDeg = "ПН-ЗХ";
-  } else windDeg = "ПН";
+    windDeg = `${ctx.wind.nw}`;
+  } else windDeg = `${ctx.wind.n}`;
 
   return (
     <div className={styles.container}>
       <div className={styles.row}>
         <div>
-          Дата: {date}-{month}-{year}
+          {ctx.date}: {date}-{month}-{year}
         </div>
         <div>{day}</div>
         <div>
-          Час: {hours}:{minutes}
+          {ctx.time}: {hours}:{minutes}
         </div>
         <div>
-          Схід сонця: {sunriseHours}:{sunriseMins}
+        {ctx.sunrise}: {sunriseHours}:{sunriseMins}
         </div>
         <div>
-          Захід сонця: {sunsetHours}:{sunsetMins}
+          {ctx.sunset}: {sunsetHours}:{sunsetMins}
         </div>
-        <div>Тиск: {press} mmHg</div>
+        <div>{ctx.press}: {press} mmHg</div>
         <div>
-          Вітер: {windSpeed} м/с, {windDeg}
+          {ctx.windSpeed}: {windSpeed} {ctx.mSec}, {windDeg}
         </div>
       </div>
       <div className={styles.row}>
-        <div>Хмарність: {clouds}%</div>
+        <div>{ctx.clouds}: {clouds}%</div>
         <div>{sky}</div>
         <div>
           <img src={icon} alt={sky} className={styles.img} />
         </div>
-        <div>Фактично: {tempFact} &deg;С </div>
-        <div>Відчувається: {tempFeels} &deg;C</div>
+        <div>{ctx.fact}: {tempFact} &deg;С </div>
+        <div>{ctx.feels}: {tempFeels} &deg;C</div>
       </div>
     </div>
   );
