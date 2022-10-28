@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import InputCity from "../components/InputCity";
 import CurrentWeatherDashboard from "../components/CurrentWeatherDashboard";
 import LongWeatherDashboard from "../components/LongWeatherDashboard";
 import classes from "./Main.module.css";
 import LeafletMap from "../components/LeafletMap";
+import LanguageContext from "../store/language-context";
 
 const Main = () => {
+  const context = useContext(LanguageContext);
+
   const [currentWeatherData, setCurrentWeatherData] = useState({});
   const [longWeatherData, setLongWeatherData] = useState([]);
   const [showWeather, setShowWeather] = useState(false);
   const [currentType, setCurrentType] = useState(true);
   const [coords, setCoords] = useState({});
-  const [city, setCity] = useState("Місто не визначено");
-
-  const lang = "ua";
+  const [city, setCity] = useState('');
+  
+  const ctx = context.languagePack[1];  
 
   const forecastTypeHandler = () => {
     setCurrentType((prevState) => (prevState = !prevState));
@@ -25,9 +28,10 @@ const Main = () => {
 
   const coordsHandler = async (lat, lon) => {
     setCoords({ latitude: lat, longitude: lon });
+    console.log(ctx.fetchLang)
 
     await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang}`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${ctx.fetchLang}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -47,7 +51,7 @@ const Main = () => {
       });
 
     await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang}`
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${ctx.fetchLang}`
     )
       .then((response) => response.json())
       .then((data) => {

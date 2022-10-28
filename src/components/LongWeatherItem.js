@@ -1,10 +1,16 @@
+import { useContext } from "react";
+import LanguageContext from "../store/language-context";
 import styles from "./LongWeatherItem.module.css";
 
 const LongWeatherItem = (props) => {
+
+  const context = useContext(LanguageContext);
+  const ctx = context.languagePack[1];
+
   let options = { weekday: "long" };
   const dateObj = new Date(props.item.dt * 1000);
   const date = dateObj.getDate();
-  const day = new Intl.DateTimeFormat("ua-UA", options).format(
+  const day = new Intl.DateTimeFormat(`${ctx.dateFormat}`, options).format(
     props.item.dt * 1000
   );
   const month = dateObj.getMonth() + 1;
@@ -33,12 +39,12 @@ const LongWeatherItem = (props) => {
         {hours}:{minutes}
       </div>
       <div>{temp} &deg;C</div>
-      <div>Вологість: {humidity}%</div>
+      <div>{ctx.humidity}: {humidity}%</div>
       <div>
         <img className={styles.img} src={icon} alt={sky} />
       </div>
-      <div>Вітер: </div>
-      <div>{wind} м/с</div>
+      <div>{ctx.windSpeed}: </div>
+      <div>{wind} {ctx.mSec}</div>
     </div>
   );
 };
