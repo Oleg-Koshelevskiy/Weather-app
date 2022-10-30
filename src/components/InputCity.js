@@ -45,6 +45,7 @@ const InputCity = (props) => {
         }
         props.getCoords(data[0].lat, data[0].lon);
         props.getCity(`${data[0].country}, ${cityLocalName}`);
+        context.addCurrentCity(data[0].lat, data[0].lon, cityLocalName);
       });
 
     inputCity.current.value = "";
@@ -70,6 +71,7 @@ const InputCity = (props) => {
         .then((data) => {
           props.getCity(`${data.countryName}, ${data.city}`);
           props.getCoords(lat, lon);
+          context.addCurrentCity(lat, lon, data.city);
         });
     }
 

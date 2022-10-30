@@ -7,16 +7,21 @@ const FavouriteList = () => {
   const context = useContext(AppContext);
   console.log(context.favCities);
 
-  const citiesArray = context.favCities;
+  let cities;
 
-  const cities = citiesArray.map((city) => {
-    return (
-      <div className={styles.item} key={city.id}>
-        <div>{city.name}</div>
-        <button>Видалити</button>
-      </div>
-    );
-  });
+  const citiesArray = context.favCities;
+  if (!citiesArray) {
+    cities = "Збережених міст не знайдено";
+  } else {
+    cities = citiesArray.map((city) => {
+      return (
+        <div className={styles.item} key={city.id}>
+          <div>{city.name}</div>
+          <button onClick={context.removeFavCity}>Видалити</button>
+        </div>
+      );
+    });
+  }
 
   return (
     <Modal>
@@ -26,7 +31,14 @@ const FavouriteList = () => {
           <button onClick={context.modalOff}>x</button>
         </div>
       </div>
-      <button className={styles.addNew}>Додати поточні координати</button>
+      <div className={styles.group}>
+        <button onClick={context.addFavCity} className={styles.popupBtn}>
+          Додати поточні координати
+        </button>
+        <button onClick={context.clearAll} className={styles.popupBtn}>
+          Очистити все
+        </button>
+      </div>
       <div>{cities}</div>
     </Modal>
   );

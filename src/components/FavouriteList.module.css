@@ -6,6 +6,10 @@
   width: 95%;
   margin: 0 auto;
 }
+.group {
+  display: flex;
+  justify-content: space-between;
+}
 
 .item {
   display: flex;
@@ -15,7 +19,7 @@
 .btnClose {
   margin: 0 0 0 auto;
 }
-.addNew {
+.popupBtn {
   display: block;
   margin: 1rem auto;
 }
