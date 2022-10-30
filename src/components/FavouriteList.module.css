@@ -1,0 +1,21 @@
+.main {
+  display: flex;
+}
+.header {
+  text-align: center;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.item {
+  display: flex;
+  padding: 0.25rem;
+  justify-content: space-between;
+}
+.btnClose {
+  margin: 0 0 0 auto;
+}
+.addNew {
+  display: block;
+  margin: 1rem auto;
+}

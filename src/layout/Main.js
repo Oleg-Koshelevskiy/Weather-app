@@ -4,19 +4,19 @@ import CurrentWeatherDashboard from "../components/CurrentWeatherDashboard";
 import LongWeatherDashboard from "../components/LongWeatherDashboard";
 import classes from "./Main.module.css";
 import LeafletMap from "../components/LeafletMap";
-import LanguageContext from "../store/language-context";
+import AppContext from "../store/app-context";
 
 const Main = () => {
-  const context = useContext(LanguageContext);
+  const context = useContext(AppContext);
 
   const [currentWeatherData, setCurrentWeatherData] = useState({});
   const [longWeatherData, setLongWeatherData] = useState([]);
   const [showWeather, setShowWeather] = useState(false);
   const [currentType, setCurrentType] = useState(true);
   const [coords, setCoords] = useState({});
-  const [city, setCity] = useState('');
-  
-  const ctx = context.languagePack[1];  
+  const [city, setCity] = useState("");
+
+  const ctx = context.languagePack[1];
 
   const forecastTypeHandler = () => {
     setCurrentType((prevState) => (prevState = !prevState));
@@ -28,7 +28,7 @@ const Main = () => {
 
   const coordsHandler = async (lat, lon) => {
     setCoords({ latitude: lat, longitude: lon });
-    console.log(ctx.fetchLang)
+    console.log(ctx.fetchLang);
 
     await fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${ctx.fetchLang}`

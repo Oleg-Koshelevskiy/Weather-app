@@ -1,10 +1,9 @@
 import { useContext } from "react";
-import LanguageContext from "../store/language-context";
+import AppContext from "../store/app-context";
 import styles from "./LongWeatherItem.module.css";
 
 const LongWeatherItem = (props) => {
-
-  const context = useContext(LanguageContext);
+  const context = useContext(AppContext);
   const ctx = context.languagePack[1];
 
   let options = { weekday: "long" };
@@ -39,12 +38,16 @@ const LongWeatherItem = (props) => {
         {hours}:{minutes}
       </div>
       <div>{temp} &deg;C</div>
-      <div>{ctx.humidity}: {humidity}%</div>
+      <div>
+        {ctx.humidity}: {humidity}%
+      </div>
       <div>
         <img className={styles.img} src={icon} alt={sky} />
       </div>
       <div>{ctx.windSpeed}: </div>
-      <div>{wind} {ctx.mSec}</div>
+      <div>
+        {wind} {ctx.mSec}
+      </div>
     </div>
   );
 };

@@ -1,13 +1,18 @@
+import { Fragment, useContext } from "react";
+import FavouriteList from "./components/FavouriteList";
 import Header from "./layout/Header";
 import Main from "./layout/Main";
-import { LanguageContextProvider } from "./store/language-context";
+import AppContext from "../src/store/app-context";
 
 const App = () => {
+  const context = useContext(AppContext);
+
   return (
-    <LanguageContextProvider>
+    <Fragment>
       <Header />
       <Main />
-    </LanguageContextProvider>
+      {context.modalState && <FavouriteList />}
+    </Fragment>
   );
 };
 

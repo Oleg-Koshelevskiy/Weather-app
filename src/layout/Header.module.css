@@ -1,13 +1,13 @@
 .header {
   text-align: center;
   color: rgb(255, 255, 255);
-  margin: 0 auto;
-  max-width: 582px;
-  background-color: rgba(76, 179, 248, 0.37);
-  border-radius: 1rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+.text {
+  width: 70%;
+  margin: 0;
 }
 
 .button {
@@ -35,12 +35,35 @@
   background-size: cover;
 }
 
-@media (max-width: 430px) {
+.favourite {
+  border: none;
+  background: transparent;
+  padding-top: 5px;
+  border-radius: 5rem;
+}
+.favourite:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 1rem white;
+  background: transparent;
+}
+
+.favourite img {
+  height: 48px;
+}
+
+@media (max-width: 500px) {
   .header {
     font-size: 1.2rem;
-    margin-bottom: 0.8rem;
   }
   .text {
     font-size: 1.5rem;
+  }
+  .button {
+    height: 24px;
+    width: 32px;
+    font-size: 0.6rem;
+  }
+  .favourite img {
+    height: 24px;
   }
 }

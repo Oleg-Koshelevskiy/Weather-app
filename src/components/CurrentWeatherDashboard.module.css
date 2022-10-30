@@ -1,4 +1,5 @@
 .container {
+  box-sizing: border-box;
   font-size: 1rem;
   color: white;
   display: flex;
@@ -9,8 +10,9 @@
   background-image: url("../images/autumn.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  max-width: 550px;
+  max-width: 614px;
   margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .row {

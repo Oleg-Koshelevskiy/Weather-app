@@ -1,13 +1,11 @@
 import { useContext } from "react";
-import LanguageContext from "../store/language-context";
+import AppContext from "../store/app-context";
 import CityNotChosen from "./CityNotChosen";
 import styles from "./CurrentWeatherDashboard.module.css";
 
 const CurrentWeatherDashboard = (props) => {
-
-  const context = useContext(LanguageContext);
+  const context = useContext(AppContext);
   const ctx = context.languagePack[1];
-
 
   if (!props.showWeather) {
     return <CityNotChosen />;
@@ -53,7 +51,7 @@ const CurrentWeatherDashboard = (props) => {
   const icon = `/icons/${props.current.icon}.png`;
   const windSpeed = Math.round(props.current.windSpeed);
   let windDeg = props.current.windDeg;
-  console.log(ctx.wind.so)
+  console.log(ctx.wind.so);
   if (windDeg >= 22.5 && windDeg < 67.5) windDeg = `${ctx.wind.ne}`;
   if (windDeg >= 67.5 && windDeg < 112.5) windDeg = `${ctx.wind.e}`;
   if (windDeg >= 112.5 && windDeg < 157.5) windDeg = `${ctx.wind.se}`;
@@ -75,24 +73,32 @@ const CurrentWeatherDashboard = (props) => {
           {ctx.time}: {hours}:{minutes}
         </div>
         <div>
-        {ctx.sunrise}: {sunriseHours}:{sunriseMins}
+          {ctx.sunrise}: {sunriseHours}:{sunriseMins}
         </div>
         <div>
           {ctx.sunset}: {sunsetHours}:{sunsetMins}
         </div>
-        <div>{ctx.press}: {press} mmHg</div>
+        <div>
+          {ctx.press}: {press} mmHg
+        </div>
         <div>
           {ctx.windSpeed}: {windSpeed} {ctx.mSec}, {windDeg}
         </div>
       </div>
       <div className={styles.row}>
-        <div>{ctx.clouds}: {clouds}%</div>
+        <div>
+          {ctx.clouds}: {clouds}%
+        </div>
         <div>{sky}</div>
         <div>
           <img src={icon} alt={sky} className={styles.img} />
         </div>
-        <div>{ctx.fact}: {tempFact} &deg;С </div>
-        <div>{ctx.feels}: {tempFeels} &deg;C</div>
+        <div>
+          {ctx.fact}: {tempFact} &deg;С{" "}
+        </div>
+        <div>
+          {ctx.feels}: {tempFeels} &deg;C
+        </div>
       </div>
     </div>
   );

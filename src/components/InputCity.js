@@ -1,23 +1,23 @@
 import { useRef, useContext } from "react";
 import Button from "../UI/Button";
 import styles from "./InputCity.module.css";
-import LanguageContext from "../store/language-context";
+import AppContext from "../store/app-context";
 
 const InputCity = (props) => {
-  const context = useContext(LanguageContext);
+  const context = useContext(AppContext);
 
   const inputCity = useRef();
-  
+
   const ctx = context.languagePack[1];
-  
+
   let forecastType;
-  
-  let city 
-  
+
+  let city;
+
   if (props.city) {
-    city = props.city
+    city = props.city;
   } else {
-    city = ctx.unchosenCity
+    city = ctx.unchosenCity;
   }
 
   if (props.currentType) {
@@ -35,13 +35,13 @@ const InputCity = (props) => {
       `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`
     )
       .then((response) => response.json())
-      .then((data) => {  
-        let cityLocalName  
-        console.log(cityLocalName)    
-        if (context.languagePack[0] === 'ukr') {
-          cityLocalName = data[0].local_names.uk
+      .then((data) => {
+        let cityLocalName;
+        console.log(cityLocalName);
+        if (context.languagePack[0] === "ukr") {
+          cityLocalName = data[0].local_names.uk;
         } else {
-          cityLocalName = data[0].local_names.en
+          cityLocalName = data[0].local_names.en;
         }
         props.getCoords(data[0].lat, data[0].lon);
         props.getCity(`${data[0].country}, ${cityLocalName}`);
@@ -55,13 +55,13 @@ const InputCity = (props) => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
 
-      let cityLocalName  
-        console.log(cityLocalName)    
-        if (context.languagePack[0] === 'ukr') {
-          cityLocalName = "default"
-        } else {
-          cityLocalName = 'en'
-        }
+      let cityLocalName;
+      console.log(cityLocalName);
+      if (context.languagePack[0] === "ukr") {
+        cityLocalName = "default";
+      } else {
+        cityLocalName = "en";
+      }
 
       fetch(
         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${cityLocalName}`
