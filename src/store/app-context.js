@@ -19,8 +19,8 @@ const AppContext = createContext({
 export const AppContextProvider = (props) => {
   const [lang, setLang] = useState(languagePack[0]);
   const [modal, setModal] = useState(false);
-  const [currentCity, setCurrentCity] = useState([]);
-  const [favList, setFavlist] = useState([]);
+  const [currentCity, setCurrentCity] = useState();
+  const [favList, setFavlist] = useState();
 
   const languageHandler = () => {
     setLang((state) => {
@@ -32,18 +32,17 @@ export const AppContextProvider = (props) => {
   const getStoredCities = () => {
     const storedCities = JSON.parse(localStorage.getItem("cities"));
     if (!storedCities) {
-      setFavlist([]);
+      setFavlist();
     }
     setFavlist(storedCities);
   };
 
   const getCurrentCity = (lat, lon, name) => {
     setCurrentCity({
-      id: Math.random(),
+      id: `${lat}${lon}`,
       coords: [lat, lon],
       name: name,
-    });
-    console.log(currentCity);
+    });    
   };
 
   const modalOnHandler = () => {
@@ -56,15 +55,25 @@ export const AppContextProvider = (props) => {
 
   const addFavCityHandler = (e) => {
     e.preventDefault();
-    if (!currentCity) return;
-
-    setFavlist((prevList) => {
-      if (!prevList) return [currentCity];
-      return [currentCity, ...prevList];
-    });
-
-    const storedCities = JSON.stringify(favList);
+      
+    if (!currentCity) return (alert('Оберіть місто!'));
+    
+    if(!favList) {     
+      const storedCities = JSON.stringify([currentCity]);      
+      localStorage.setItem("cities", storedCities);
+      getStoredCities()
+    } 
+    console.log(favList)
+    console.log(currentCity.id) 
+    const match = favList.find(
+      (item) => item.id === currentCity.id)      
+    if (match) {
+      return  
+    } 
+    const storedCities = JSON.stringify([currentCity, ...favList]);
     localStorage.setItem("cities", storedCities);
+    console.log(storedCities) 
+    getStoredCities();        
   };
 
   const removeFavCityHandler = (id) => {
@@ -72,19 +81,15 @@ export const AppContextProvider = (props) => {
     const favCityItem = favList[favCityIndex];
     const updatedFavCities = favList.filter(
       (item) => item.id !== favCityItem.id
-    );
-    setFavlist(updatedFavCities);
-    const storedCities = JSON.stringify(favList);
-    localStorage.removeItem("cities", storedCities);
-
-    setFavlist((prevList) => {
-      return [currentCity, ...prevList];
-    });
+    );    
+    const storedCities = JSON.stringify(updatedFavCities);
+    localStorage.setItem("cities", storedCities);
+    getStoredCities()
   };
 
   const removeFavCities = () => {
-    setFavlist([]);
     localStorage.clear();
+    setFavlist([])    
   };
 
   return (
