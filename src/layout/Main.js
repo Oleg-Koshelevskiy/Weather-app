@@ -27,8 +27,7 @@ const Main = () => {
   };
 
   const coordsHandler = async (lat, lon) => {
-    setCoords({ latitude: lat, longitude: lon });
-    console.log(ctx.fetchLang);
+    setCoords({ latitude: lat, longitude: lon });    
 
     await fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${ctx.fetchLang}`
