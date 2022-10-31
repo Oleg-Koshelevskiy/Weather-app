@@ -51,7 +51,6 @@ const CurrentWeatherDashboard = (props) => {
   const icon = `/icons/${props.current.icon}.png`;
   const windSpeed = Math.round(props.current.windSpeed);
   let windDeg = props.current.windDeg;
-  console.log(ctx.wind.so);
   if (windDeg >= 22.5 && windDeg < 67.5) windDeg = `${ctx.wind.ne}`;
   if (windDeg >= 67.5 && windDeg < 112.5) windDeg = `${ctx.wind.e}`;
   if (windDeg >= 112.5 && windDeg < 157.5) windDeg = `${ctx.wind.se}`;

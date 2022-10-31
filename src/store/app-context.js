@@ -43,6 +43,7 @@ export const AppContextProvider = (props) => {
       coords: [lat, lon],
       name: name,
     });
+    console.log(currentCity);
   };
 
   const modalOnHandler = () => {
@@ -53,11 +54,15 @@ export const AppContextProvider = (props) => {
     setModal(false);
   };
 
-  const addFavCityHandler = () => {
-    if (!currentCity) return alert("місто не задано");
+  const addFavCityHandler = (e) => {
+    e.preventDefault();
+    if (!currentCity) return;
+
     setFavlist((prevList) => {
+      if (!prevList) return [currentCity];
       return [currentCity, ...prevList];
     });
+
     const storedCities = JSON.stringify(favList);
     localStorage.setItem("cities", storedCities);
   };

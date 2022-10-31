@@ -45,7 +45,6 @@ const InputCity = (props) => {
         }
         props.getCoords(data[0].lat, data[0].lon);
         props.getCity(`${data[0].country}, ${cityLocalName}`);
-        context.addCurrentCity(data[0].lat, data[0].lon, cityLocalName);
       });
 
     inputCity.current.value = "";
@@ -57,7 +56,6 @@ const InputCity = (props) => {
       const lon = position.coords.longitude;
 
       let cityLocalName;
-      console.log(cityLocalName);
       if (context.languagePack[0] === "ukr") {
         cityLocalName = "default";
       } else {
@@ -71,6 +69,7 @@ const InputCity = (props) => {
         .then((data) => {
           props.getCity(`${data.countryName}, ${data.city}`);
           props.getCoords(lat, lon);
+          console.log(lat, lon, data.city);
           context.addCurrentCity(lat, lon, data.city);
         });
     }
