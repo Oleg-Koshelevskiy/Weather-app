@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import languagePack from "./languagePack";
-// import favCities from "../store/favCities";
 
 const AppContext = createContext({
   languagePack: [],
@@ -42,7 +41,7 @@ export const AppContextProvider = (props) => {
       id: `${lat}${lon}`,
       coords: [lat, lon],
       name: name,
-    });    
+    });
   };
 
   const modalOnHandler = () => {
@@ -55,25 +54,24 @@ export const AppContextProvider = (props) => {
 
   const addFavCityHandler = (e) => {
     e.preventDefault();
-      
-    if (!currentCity) return (alert('Оберіть місто!'));
-    
-    if(!favList) {     
-      const storedCities = JSON.stringify([currentCity]);      
+
+    if (!currentCity) return alert("Оберіть місто!");
+
+    if (!favList) {
+      const storedCities = JSON.stringify([currentCity]);
       localStorage.setItem("cities", storedCities);
-      getStoredCities()
-    } 
-    console.log(favList)
-    console.log(currentCity.id) 
-    const match = favList.find(
-      (item) => item.id === currentCity.id)      
+      getStoredCities();
+    }
+    console.log(favList);
+    console.log(currentCity.id);
+    const match = favList.find((item) => item.id === currentCity.id);
     if (match) {
-      return  
-    } 
+      return;
+    }
     const storedCities = JSON.stringify([currentCity, ...favList]);
     localStorage.setItem("cities", storedCities);
-    console.log(storedCities) 
-    getStoredCities();        
+    console.log(storedCities);
+    getStoredCities();
   };
 
   const removeFavCityHandler = (id) => {
@@ -81,32 +79,32 @@ export const AppContextProvider = (props) => {
     const favCityItem = favList[favCityIndex];
     const updatedFavCities = favList.filter(
       (item) => item.id !== favCityItem.id
-    );    
+    );
     const storedCities = JSON.stringify(updatedFavCities);
     localStorage.setItem("cities", storedCities);
-    getStoredCities()
+    getStoredCities();
   };
 
   const removeFavCities = () => {
     localStorage.clear();
-    setFavlist([])    
+    setFavlist([]);
+  };
+
+  const appContext = {
+    languagePack: lang,
+    modalState: modal,
+    favCities: favList,
+    onChangeLanguage: languageHandler,
+    modalOn: modalOnHandler,
+    modalOff: modalOffHandler,
+    addCurrentCity: getCurrentCity,
+    addFavCity: addFavCityHandler,
+    removeFavCity: removeFavCityHandler,
+    clearAll: removeFavCities,
   };
 
   return (
-    <AppContext.Provider
-      value={{
-        languagePack: lang,
-        modalState: modal,
-        favCities: favList,
-        onChangeLanguage: languageHandler,
-        modalOn: modalOnHandler,
-        modalOff: modalOffHandler,
-        addCurrentCity: getCurrentCity,
-        addFavCity: addFavCityHandler,
-        removeFavCity: removeFavCityHandler,
-        clearAll: removeFavCities,
-      }}
-    >
+    <AppContext.Provider value={appContext}>
       {props.children}
     </AppContext.Provider>
   );

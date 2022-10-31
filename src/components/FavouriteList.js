@@ -16,7 +16,7 @@ const FavouriteList = () => {
     cities = citiesArray.map((city) => {
       return (
         <div className={styles.item} key={city.id}>
-          <div>{city.name}</div>
+          <button>{city.name}</button>
           <button onClick={context.removeFavCity}>Видалити</button>
         </div>
       );

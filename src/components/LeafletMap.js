@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -8,9 +8,11 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import "./LeafletMap.css";
+import AppContext from "../store/app-context";
 
 const LeafletMap = (props) => {
   const [clickedCoords, setClickedCoords] = useState(null);
+  const context = useContext(AppContext);
 
   const lat = props.coords.latitude;
   const lon = props.coords.longitude;
@@ -63,6 +65,7 @@ const LeafletMap = (props) => {
       .then((data) => {
         props.getCity(`${data.countryName}, ${data.city}`);
         props.getCoords(clickedLat, clickedLon);
+        context.addCurrentCity(clickedLat, clickedLon, data.city);
         setClickedCoords(null);
       });
   };
