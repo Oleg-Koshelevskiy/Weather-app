@@ -5,6 +5,7 @@ import styles from "./LongWeatherItem.module.css";
 const LongWeatherItem = (props) => {
   const context = useContext(AppContext);
   const ctx = context.languagePack[1];
+  
 
   let options = { weekday: "long" };
   const dateObj = new Date(props.item.dt * 1000);

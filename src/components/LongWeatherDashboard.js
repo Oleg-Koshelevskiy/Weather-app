@@ -1,13 +1,16 @@
+import { useContext } from "react";
+import AppContext from "../store/app-context";
 import LongWeatherItem from "./LongWeatherItem";
 import styles from "./LongWeatherDashboard.module.css";
 import CityNotChosen from "./CityNotChosen";
 
 const LongWeatherDashboard = (props) => {
-  if (!props.showWeather) {
+  const context = useContext(AppContext);
+  if (!context.showWeather) {
     return <CityNotChosen />;
   }
 
-  const item = props.long.map((item) => (
+  const item = context.longWeatherData.map((item) => (
     <LongWeatherItem item={item} key={Math.random()} />
   ));
 
