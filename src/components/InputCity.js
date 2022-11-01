@@ -26,24 +26,36 @@ const InputCity = (props) => {
     forecastType = `${ctx.btnCurrent}`;
   }
 
-  const getCityCoords = (event) => {
+  const getCityCoords = async (event) => {
     event.preventDefault();
 
     const cityName = inputCity.current.value;
 
-    fetch(
+    await fetch(
       `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`
     )
       .then((response) => response.json())
       .then((data) => {
-        let cityLocalName;        
+        let cityLocalName;
         if (context.languagePack[0] === "ukr") {
           cityLocalName = data[0].local_names.uk;
         } else {
           cityLocalName = data[0].local_names.en;
         }
-        context.useCoords(data[0].lat, data[0].lon);        
-        context.addCurrentCity(data[0].lat, data[0].lon, cityLocalName);
+        let nativeName;
+        fetch(`https://restcountries.com/v3.1/alpha/${data[0].country}`)
+          .then((response) => response.json())
+          .then((data2) => {
+            nativeName = Object.entries(data2[0].name.nativeName)[0][1].common;
+
+            context.useCoords(data[0].lat, data[0].lon);
+
+            context.addCurrentCity(
+              data[0].lat,
+              data[0].lon,
+              `${nativeName}, ${cityLocalName}`
+            );
+          });
       });
 
     inputCity.current.value = "";
@@ -66,9 +78,8 @@ const InputCity = (props) => {
       )
         .then((res) => res.json())
         .then((data) => {
-          props.getCity(`${data.countryName}, ${data.city}`);
-          context.useCoords(lat, lon);          
-          context.addCurrentCity(lat, lon, data.city);
+          context.useCoords(lat, lon);
+          context.addCurrentCity(lat, lon, `${data.countryName}, ${data.city}`);
         });
     }
 

@@ -10,7 +10,7 @@ import {
 import "./LeafletMap.css";
 import AppContext from "../store/app-context";
 
-const LeafletMap = (props) => {
+const LeafletMap = () => {
   const [clickedCoords, setClickedCoords] = useState(null);
   const context = useContext(AppContext);
 
@@ -32,7 +32,7 @@ const LeafletMap = (props) => {
           {clickedCoords ? (
             <button onClick={getClickedCoordsData}>Показати</button>
           ) : (
-            props.city
+            context.currentCity.name
           )}
         </Popup>
       </Marker>
@@ -63,9 +63,12 @@ const LeafletMap = (props) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        props.getCity(`${data.countryName}, ${data.city}`);
         context.useCoords(clickedLat, clickedLon);
-        context.addCurrentCity(clickedLat, clickedLon, data.city);
+        context.addCurrentCity(
+          clickedLat,
+          clickedLon,
+          `${data.countryName}, ${data.city}`
+        );
         setClickedCoords(null);
       });
   };

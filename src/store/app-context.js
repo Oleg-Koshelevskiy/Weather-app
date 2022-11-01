@@ -50,7 +50,7 @@ export const AppContextProvider = (props) => {
     setCurrentCity({
       id: `${lat}${lon}`,
       coords: [lat, lon],
-      name: name? name : 'невідомо',
+      name: name ? name : "невідомо",
     });
   };
 
@@ -62,8 +62,7 @@ export const AppContextProvider = (props) => {
     setModal(false);
   };
 
-  const addFavCityHandler = () => {    
-
+  const addFavCityHandler = () => {
     if (!currentCity) return alert("Оберіть місто!");
 
     if (!favList) {
@@ -71,20 +70,18 @@ export const AppContextProvider = (props) => {
       localStorage.setItem("cities", storedCities);
       getStoredCities();
     }
-    console.log(favList);
-    console.log(currentCity.id);
+
     const match = favList.find((item) => item.id === currentCity.id);
     if (match) {
       return;
     }
     const storedCities = JSON.stringify([currentCity, ...favList]);
     localStorage.setItem("cities", storedCities);
-    console.log(storedCities);
+
     getStoredCities();
   };
 
   const removeFavCityHandler = (id) => {
-    
     const favCityIndex = favList.findIndex((item) => item.id === id);
     const favCityItem = favList[favCityIndex];
     const updatedFavCities = favList.filter(
@@ -101,7 +98,7 @@ export const AppContextProvider = (props) => {
   };
 
   const coordsHandler = async (lat, lon) => {
-    setCoords({ latitude: lat, longitude: lon });    
+    setCoords({ latitude: lat, longitude: lon });
 
     await fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang[1].fetchLang}`
@@ -150,7 +147,6 @@ export const AppContextProvider = (props) => {
     removeFavCity: removeFavCityHandler,
     clearAll: removeFavCities,
     useCoords: coordsHandler,
-    
   };
 
   return (
