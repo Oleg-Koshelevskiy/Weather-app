@@ -4,20 +4,30 @@ import AppContext from "../store/app-context";
 import styles from "./FavouriteList.module.css";
 
 const FavouriteList = () => {
-  const context = useContext(AppContext);
-  console.log(context.favCities);
+  const context = useContext(AppContext);  
 
   let cities;
+
+  const removeFavCityHandler = (id) => {
+    context.removeFavCity(id);
+  }
 
   const citiesArray = context.favCities;
   if (!citiesArray) {
     cities = "Збережених міст не знайдено";
-  } else {
+  } else {  
+
     cities = citiesArray.map((city) => {
+
+      const getCityWeather = (lat, lon) => {
+        context.useCoords(lat, lon)
+        
+      }
+      
       return (
         <div className={styles.item} key={city.id}>
-          <button>{city.name}</button>
-          <button onClick={context.removeFavCity}>Видалити</button>
+          <button onClick={getCityWeather.bind(null, city.coords[0], city.coords[1])}>{city.name}</button>
+          <button onClick={removeFavCityHandler.bind(null, city.id)}>Видалити</button>
         </div>
       );
     });

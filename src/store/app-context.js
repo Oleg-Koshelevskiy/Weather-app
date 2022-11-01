@@ -6,6 +6,10 @@ const AppContext = createContext({
   modalState: false,
   currentCity: [],
   favCities: [],
+  coords: [],
+  currentWeatherData: [],
+  longWeatherData: [],
+  showWeather: false,
   onChangeLanguage: () => {},
   modalOn: () => {},
   modalOff: () => {},
@@ -13,6 +17,7 @@ const AppContext = createContext({
   addFavCity: () => {},
   removeFavCity: () => {},
   clearAll: () => {},
+  useCoords: () => {},
 });
 
 export const AppContextProvider = (props) => {
@@ -20,6 +25,11 @@ export const AppContextProvider = (props) => {
   const [modal, setModal] = useState(false);
   const [currentCity, setCurrentCity] = useState();
   const [favList, setFavlist] = useState();
+
+  const [coords, setCoords] = useState([]);
+  const [currentWeatherData, setCurrentWeatherData] = useState([]);
+  const [longWeatherData, setLongWeatherData] = useState([]);
+  const [showWeather, setShowWeather] = useState(false);
 
   const languageHandler = () => {
     setLang((state) => {
@@ -40,7 +50,7 @@ export const AppContextProvider = (props) => {
     setCurrentCity({
       id: `${lat}${lon}`,
       coords: [lat, lon],
-      name: name,
+      name: name? name : 'невідомо',
     });
   };
 
@@ -52,8 +62,7 @@ export const AppContextProvider = (props) => {
     setModal(false);
   };
 
-  const addFavCityHandler = (e) => {
-    e.preventDefault();
+  const addFavCityHandler = () => {    
 
     if (!currentCity) return alert("Оберіть місто!");
 
@@ -75,7 +84,8 @@ export const AppContextProvider = (props) => {
   };
 
   const removeFavCityHandler = (id) => {
-    const favCityIndex = favList.findIndex((item) => item.id);
+    
+    const favCityIndex = favList.findIndex((item) => item.id === id);
     const favCityItem = favList[favCityIndex];
     const updatedFavCities = favList.filter(
       (item) => item.id !== favCityItem.id
@@ -90,10 +100,48 @@ export const AppContextProvider = (props) => {
     setFavlist([]);
   };
 
+  const coordsHandler = async (lat, lon) => {
+    setCoords({ latitude: lat, longitude: lon });    
+
+    await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang[1].fetchLang}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setCurrentWeatherData({
+          clouds: data.clouds.all,
+          date: data.dt,
+          tempFact: data.main.temp,
+          tempFeels: data.main.feels_like,
+          press: data.main.pressure,
+          sunrise: data.sys.sunrise,
+          sunset: data.sys.sunset,
+          sky: data.weather[0].description,
+          icon: data.weather[0].icon,
+          windSpeed: data.wind.speed,
+          windDeg: data.wind.deg,
+        });
+      });
+
+    await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang[1].fetchLang}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setLongWeatherData(data.list);
+        setShowWeather(true);
+      });
+  };
+
   const appContext = {
     languagePack: lang,
     modalState: modal,
+    currentCity: currentCity,
     favCities: favList,
+    coords: coords,
+    currentWeatherData: currentWeatherData,
+    longWeatherData: longWeatherData,
+    showWeather: showWeather,
     onChangeLanguage: languageHandler,
     modalOn: modalOnHandler,
     modalOff: modalOffHandler,
@@ -101,6 +149,8 @@ export const AppContextProvider = (props) => {
     addFavCity: addFavCityHandler,
     removeFavCity: removeFavCityHandler,
     clearAll: removeFavCities,
+    useCoords: coordsHandler,
+    
   };
 
   return (

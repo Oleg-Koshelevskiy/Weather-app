@@ -6,17 +6,18 @@ import styles from "./CurrentWeatherDashboard.module.css";
 const CurrentWeatherDashboard = (props) => {
   const context = useContext(AppContext);
   const ctx = context.languagePack[1];
+  const now = context.currentWeatherData
 
-  if (!props.showWeather) {
+  if (!context.showWeather) {
     return <CityNotChosen />;
   }
 
   let options = { weekday: "long" };
-  const clouds = props.current.clouds;
-  const dateObj = new Date(props.current.date * 1000);
+  const clouds = now.clouds;
+  const dateObj = new Date(now.date * 1000);
   const date = dateObj.getDate();
   const day = new Intl.DateTimeFormat(`${ctx.dateFormat}`, options).format(
-    props.current.date * 1000
+    now.date * 1000
   );
   const month = dateObj.getMonth() + 1;
   const year = dateObj.getFullYear();
@@ -28,29 +29,29 @@ const CurrentWeatherDashboard = (props) => {
   if (minutes <= 9) {
     minutes = "0" + minutes;
   }
-  const tempFact = Math.round(props.current.tempFact);
-  const tempFeels = Math.round(props.current.tempFeels);
-  const press = Math.round(props.current.press * 0.75006375541921);
-  let sunriseHours = new Date(props.current.sunrise * 1000).getHours();
+  const tempFact = Math.round(now.tempFact);
+  const tempFeels = Math.round(now.tempFeels);
+  const press = Math.round(now.press * 0.75006375541921);
+  let sunriseHours = new Date(now.sunrise * 1000).getHours();
   if (sunriseHours <= 9) {
     sunriseHours = "0" + sunriseHours;
   }
-  let sunriseMins = new Date(props.current.sunrise * 1000).getHours();
+  let sunriseMins = new Date(now.sunrise * 1000).getHours();
   if (sunriseMins <= 9) {
     sunriseMins = "0" + sunriseMins;
   }
-  let sunsetHours = new Date(props.current.sunset * 1000).getHours();
+  let sunsetHours = new Date(now.sunset * 1000).getHours();
   if (sunsetHours <= 9) {
     sunsetHours = "0" + sunsetHours;
   }
-  let sunsetMins = new Date(props.current.sunset * 1000).getHours();
+  let sunsetMins = new Date(now.sunset * 1000).getHours();
   if (sunsetMins <= 9) {
     sunsetMins = "0" + sunsetMins;
   }
-  const sky = props.current.sky;
-  const icon = `/icons/${props.current.icon}.png`;
-  const windSpeed = Math.round(props.current.windSpeed);
-  let windDeg = props.current.windDeg;
+  const sky = now.sky;
+  const icon = `/icons/${now.icon}.png`;
+  const windSpeed = Math.round(now.windSpeed);
+  let windDeg = now.windDeg;
   if (windDeg >= 22.5 && windDeg < 67.5) windDeg = `${ctx.wind.ne}`;
   if (windDeg >= 67.5 && windDeg < 112.5) windDeg = `${ctx.wind.e}`;
   if (windDeg >= 112.5 && windDeg < 157.5) windDeg = `${ctx.wind.se}`;

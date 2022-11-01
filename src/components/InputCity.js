@@ -14,8 +14,8 @@ const InputCity = (props) => {
 
   let city;
 
-  if (props.city) {
-    city = props.city;
+  if (context.currentCity) {
+    city = context.currentCity.name;
   } else {
     city = ctx.unchosenCity;
   }
@@ -42,9 +42,7 @@ const InputCity = (props) => {
         } else {
           cityLocalName = data[0].local_names.en;
         }
-        props.getCoords(data[0].lat, data[0].lon);
-        props.getCity(`${data[0].country}, ${cityLocalName}`);
-        console.log(data[0].lat, data[0].lon, cityLocalName);
+        context.useCoords(data[0].lat, data[0].lon);        
         context.addCurrentCity(data[0].lat, data[0].lon, cityLocalName);
       });
 
@@ -69,8 +67,7 @@ const InputCity = (props) => {
         .then((res) => res.json())
         .then((data) => {
           props.getCity(`${data.countryName}, ${data.city}`);
-          props.getCoords(lat, lon);
-          console.log(lat, lon, data.city);
+          context.useCoords(lat, lon);          
           context.addCurrentCity(lat, lon, data.city);
         });
     }

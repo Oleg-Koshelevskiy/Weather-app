@@ -14,8 +14,8 @@ const LeafletMap = (props) => {
   const [clickedCoords, setClickedCoords] = useState(null);
   const context = useContext(AppContext);
 
-  const lat = props.coords.latitude;
-  const lon = props.coords.longitude;
+  const lat = context.coords.latitude;
+  const lon = context.coords.longitude;
 
   const Recenter = () => {
     const map = useMap();
@@ -64,7 +64,7 @@ const LeafletMap = (props) => {
       .then((res) => res.json())
       .then((data) => {
         props.getCity(`${data.countryName}, ${data.city}`);
-        props.getCoords(clickedLat, clickedLon);
+        context.useCoords(clickedLat, clickedLon);
         context.addCurrentCity(clickedLat, clickedLon, data.city);
         setClickedCoords(null);
       });
