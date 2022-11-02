@@ -34,6 +34,11 @@ const languagePack = [
       fact: "Фактично",
       feels: "Відчувається",
       humidity: "Вологість",
+      errorMsg: "Збережених міст не знайдено",
+      dellBtn: 'Видалити',
+      chosen: 'Обрані',
+      addCoords: 'Додати поточні координати',
+      clearAll: 'Очистити все',
     },
   ],
   [
@@ -71,6 +76,11 @@ const languagePack = [
       fact: "Actually",
       feels: "Feels like",
       humidity: "Humidity",
+      errorMsg: "No saved cities",
+      dellBtn: 'Delete',
+      chosen: 'Favourites',
+      addCoords: 'Add current coordinates',
+      clearAll: 'Clear all',
     },
   ],
 ];
