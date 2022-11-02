@@ -6,6 +6,8 @@ import styles from "./FavouriteList.module.css";
 const FavouriteList = () => {
   const context = useContext(AppContext);
 
+  const ctx = context.languagePack[1];
+
   let cities;
 
   const removeFavCityHandler = (id) => {
@@ -14,7 +16,7 @@ const FavouriteList = () => {
 
   const citiesArray = context.favCities;
   if (!citiesArray) {
-    cities = "Збережених міст не знайдено";
+    cities = ctx.errorMsg;
   } else {
     cities = citiesArray.map((city) => {
       const getCityWeather = (lat, lon, name) => {
@@ -37,7 +39,7 @@ const FavouriteList = () => {
             {shortName}
           </button>
           <button onClick={removeFavCityHandler.bind(null, city.id)}>
-            Видалити
+            {ctx.dellBtn}
           </button>
         </div>
       );
@@ -47,19 +49,19 @@ const FavouriteList = () => {
   return (
     <Modal>
       <div className={styles.main}>
-        <h2 className={styles.header}>Обрані</h2>
+        <h2 className={styles.header}>{ctx.chosen}</h2>
         <div >
           <button className={styles.btnClose} onClick={context.modalOff}></button>
         </div>
       </div>
       <div className={styles.group}>
         <button onClick={context.addFavCity} className={styles.popupAddBtn}>
-          Додати поточні координати
+          {ctx.addCoords}
         </button>        
       </div>
       <div>{cities}</div>
       <button onClick={context.clearAll} className={styles.popupDelBtn}>
-          Очистити все
+          {ctx.clearAll}
         </button>
     </Modal>
   );
