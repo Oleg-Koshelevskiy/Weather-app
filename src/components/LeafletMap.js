@@ -9,10 +9,12 @@ import {
 } from "react-leaflet";
 import "./LeafletMap.css";
 import AppContext from "../store/app-context";
+import Errors from "../UI/Errors";
 
 const LeafletMap = () => {
   const [clickedCoords, setClickedCoords] = useState(null);
   const context = useContext(AppContext);
+  const ctx = context.languagePack[1];
 
   const lat = context.coords.latitude;
   const lon = context.coords.longitude;
@@ -70,6 +72,14 @@ const LeafletMap = () => {
           `${data.countryName}, ${data.city}`
         );
         setClickedCoords(null);
+      })
+      .catch((error) => {
+        console.log(error);
+        context.addCurrentCity(
+          null,
+          null,
+          <Errors message={ctx.errorMap}></Errors>
+        );
       });
   };
 

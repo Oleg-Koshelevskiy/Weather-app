@@ -2,6 +2,7 @@ import { useRef, useContext } from "react";
 import Button from "../UI/Button";
 import styles from "./InputCity.module.css";
 import AppContext from "../store/app-context";
+import Errors from "../UI/Errors";
 
 const InputCity = (props) => {
   const context = useContext(AppContext);
@@ -34,7 +35,7 @@ const InputCity = (props) => {
     await fetch(
       `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`
     )
-      .then((response) => response.json())
+      .then((response1) => response1.json())
       .then((data) => {
         let cityLocalName;
         if (context.languagePack[0] === "ukr") {
@@ -44,7 +45,7 @@ const InputCity = (props) => {
         }
         let nativeName;
         fetch(`https://restcountries.com/v3.1/alpha/${data[0].country}`)
-          .then((response) => response.json())
+          .then((response2) => response2.json())
           .then((data2) => {
             nativeName = Object.entries(data2[0].name.nativeName)[0][1].common;
 
@@ -55,7 +56,23 @@ const InputCity = (props) => {
               data[0].lon,
               `${nativeName}, ${cityLocalName}`
             );
+          })
+          .catch((error) => {
+            console.log(error);
+            context.addCurrentCity(
+              null,
+              null,
+              <Errors message={ctx.errorCountry}></Errors>
+            );
           });
+      })
+      .catch((error) => {
+        console.log(error);
+        context.addCurrentCity(
+          null,
+          null,
+          <Errors message={ctx.errorCity}></Errors>
+        );
       });
 
     inputCity.current.value = "";
@@ -80,11 +97,18 @@ const InputCity = (props) => {
         .then((data) => {
           context.useCoords(lat, lon);
           context.addCurrentCity(lat, lon, `${data.countryName}, ${data.city}`);
+        })
+        .catch((error) => {
+          console.log(error.message);
         });
     }
 
     function error() {
-      alert("Unable to retrieve your location");
+      context.addCurrentCity(
+        null,
+        null,
+        <Errors message={ctx.errorCity}></Errors>
+      );
     }
 
     navigator.geolocation.getCurrentPosition(success, error);
