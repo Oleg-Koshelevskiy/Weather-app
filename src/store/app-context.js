@@ -124,6 +124,11 @@ export const AppContextProvider = (props) => {
           windSpeed: data.wind.speed,
           windDeg: data.wind.deg,
         });
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
       });
 
     await fetch(
@@ -133,8 +138,13 @@ export const AppContextProvider = (props) => {
       .then((data) => {
         setLongWeatherData(data.list);
         setShowWeather(true);
-      });
-      setIsLoading(false);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });;
+      
   };
 
   const LoadingOnHandler = () => {

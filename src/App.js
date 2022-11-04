@@ -4,6 +4,7 @@ import Header from "./layout/Header";
 import Main from "./layout/Main";
 import AppContext from "../src/store/app-context";
 import LoadingSpinner from "./UI/LoadingSpinner";
+import Footer from "./layout/Footer";
 
 const App = () => {
   const context = useContext(AppContext);
@@ -13,7 +14,8 @@ const App = () => {
       <Header />
       <Main />
       {context.isLoading && <LoadingSpinner/>}      
-      {context.modalState && <FavouriteList />}      
+      {context.modalState && <FavouriteList />}
+      <Footer/>      
     </Fragment>
   );
 };
