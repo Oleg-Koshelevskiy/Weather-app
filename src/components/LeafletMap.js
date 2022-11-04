@@ -58,6 +58,7 @@ const LeafletMap = () => {
 
   const getClickedCoordsData = (e) => {
     e.preventDefault();
+    context.loaderOn();
     const clickedLat = clickedCoords[0];
     const clickedLon = clickedCoords[1];
     fetch(
@@ -81,6 +82,7 @@ const LeafletMap = () => {
           <Errors message={ctx.errorMap}></Errors>
         );
       });
+      context.loaderOff();
   };
 
   return (

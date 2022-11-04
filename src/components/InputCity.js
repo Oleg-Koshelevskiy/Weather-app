@@ -29,12 +29,11 @@ const InputCity = (props) => {
 
   const getCityCoords = async (event) => {
     event.preventDefault();
+    context.loaderOn();
 
     const cityName = inputCity.current.value;
 
-    await fetch(
-      `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`
-    )
+    await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`)
       .then((response1) => response1.json())
       .then((data) => {
         let cityLocalName;
@@ -76,9 +75,11 @@ const InputCity = (props) => {
       });
 
     inputCity.current.value = "";
+    context.loaderOff();
   };
 
   const getCurrentCoords = () => {
+    context.loaderOn();
     function success(position) {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
@@ -112,21 +113,24 @@ const InputCity = (props) => {
     }
 
     navigator.geolocation.getCurrentPosition(success, error);
+    context.loaderOff();
   };
 
   return (
     <div className={styles.component}>
-      <form onSubmit={getCityCoords} className={styles.form}>
+      <form disabled={context.isLoading} onSubmit={getCityCoords} className={styles.form}>
         <button
           className={styles.gps}
           type="button"
           onClick={getCurrentCoords}
+          disabled={context.isLoading}
         />
         <input
           className={styles.input}
           type="text"
           placeholder={ctx.placeholder}
           ref={inputCity}
+          disabled={context.isLoading}
         />
         <Button type="submit">{ctx.btnShow}</Button>
       </form>
