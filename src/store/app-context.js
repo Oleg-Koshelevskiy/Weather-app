@@ -10,6 +10,7 @@ const AppContext = createContext({
   currentWeatherData: [],
   longWeatherData: [],
   showWeather: false,
+  isLoading: false,
   onChangeLanguage: () => {},
   modalOn: () => {},
   modalOff: () => {},
@@ -18,6 +19,8 @@ const AppContext = createContext({
   removeFavCity: () => {},
   clearAll: () => {},
   useCoords: () => {},
+  loaderOn: () => {},
+  loaderOff: () => {},
 });
 
 export const AppContextProvider = (props) => {
@@ -30,6 +33,8 @@ export const AppContextProvider = (props) => {
   const [currentWeatherData, setCurrentWeatherData] = useState([]);
   const [longWeatherData, setLongWeatherData] = useState([]);
   const [showWeather, setShowWeather] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const languageHandler = () => {
     setLang((state) => {
@@ -98,6 +103,7 @@ export const AppContextProvider = (props) => {
   };
 
   const coordsHandler = async (lat, lon) => {
+    setIsLoading(true);
     setCoords({ latitude: lat, longitude: lon });
 
     await fetch(
@@ -128,7 +134,16 @@ export const AppContextProvider = (props) => {
         setLongWeatherData(data.list);
         setShowWeather(true);
       });
+      setIsLoading(false);
   };
+
+  const LoadingOnHandler = () => {
+    setIsLoading(true)
+  }
+
+  const LoadingOffHandler = () => {
+    setIsLoading(false)
+  }
 
   const appContext = {
     languagePack: lang,
@@ -139,6 +154,7 @@ export const AppContextProvider = (props) => {
     currentWeatherData: currentWeatherData,
     longWeatherData: longWeatherData,
     showWeather: showWeather,
+    isLoading: isLoading,
     onChangeLanguage: languageHandler,
     modalOn: modalOnHandler,
     modalOff: modalOffHandler,
@@ -147,6 +163,8 @@ export const AppContextProvider = (props) => {
     removeFavCity: removeFavCityHandler,
     clearAll: removeFavCities,
     useCoords: coordsHandler,
+    loaderOn: LoadingOnHandler,
+    loaderOff: LoadingOffHandler,
   };
 
   return (
