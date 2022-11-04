@@ -73,6 +73,7 @@ const LeafletMap = () => {
           `${data.countryName}, ${data.city}`
         );
         setClickedCoords(null);
+        context.loaderOff();
       })
       .catch((error) => {
         console.log(error);
@@ -81,8 +82,8 @@ const LeafletMap = () => {
           null,
           <Errors message={ctx.errorMap}></Errors>
         );
-      });
-      context.loaderOff();
+        context.loaderOff();
+      });      
   };
 
   return (

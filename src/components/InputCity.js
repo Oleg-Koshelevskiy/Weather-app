@@ -55,6 +55,7 @@ const InputCity = (props) => {
               data[0].lon,
               `${nativeName}, ${cityLocalName}`
             );
+            context.loaderOff();
           })
           .catch((error) => {
             console.log(error);
@@ -63,6 +64,7 @@ const InputCity = (props) => {
               null,
               <Errors message={ctx.errorCountry}></Errors>
             );
+            context.loaderOff();
           });
       })
       .catch((error) => {
@@ -72,10 +74,10 @@ const InputCity = (props) => {
           null,
           <Errors message={ctx.errorCity}></Errors>
         );
+        context.loaderOff();
       });
 
-    inputCity.current.value = "";
-    context.loaderOff();
+    inputCity.current.value = "";    
   };
 
   const getCurrentCoords = () => {
@@ -98,9 +100,16 @@ const InputCity = (props) => {
         .then((data) => {
           context.useCoords(lat, lon);
           context.addCurrentCity(lat, lon, `${data.countryName}, ${data.city}`);
+          context.loaderOff();
         })
         .catch((error) => {
           console.log(error.message);
+          context.addCurrentCity(
+            null,
+            null,
+            <Errors message={ctx.errorCity}></Errors>
+          );
+          context.loaderOff();
         });
     }
 
@@ -110,10 +119,10 @@ const InputCity = (props) => {
         null,
         <Errors message={ctx.errorCity}></Errors>
       );
+      context.loaderOff();
     }
 
-    navigator.geolocation.getCurrentPosition(success, error);
-    context.loaderOff();
+    navigator.geolocation.getCurrentPosition(success, error);    
   };
 
   return (

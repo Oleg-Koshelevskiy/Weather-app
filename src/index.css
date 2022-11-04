@@ -1,12 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap");
 
 body {
-  background: url("./images/background.jpg") no-repeat;
+  background: url("./images/background.jpg") no-repeat center center fixed;   
+  font-family: "Roboto", sans-serif;  
   background-size: cover;
-  font-family: "Roboto", sans-serif;
-  background-position: center;
-  height: 98vh;
-  box-sizing: border-box;
+  box-sizing: border-box;  
 }
 
 /* Firefox */
