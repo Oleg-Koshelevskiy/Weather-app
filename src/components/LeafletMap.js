@@ -32,7 +32,7 @@ const LeafletMap = () => {
       <Marker position={clickedCoords ? clickedCoords : [lat, lon]}>
         <Popup>
           {clickedCoords ? (
-            <button onClick={getClickedCoordsData}>Показати</button>
+            <button onClick={getClickedCoordsData}>{ctx.btnShow}</button>
           ) : (
             context.currentCity.name
           )}
@@ -61,8 +61,11 @@ const LeafletMap = () => {
     context.loaderOn();
     const clickedLat = clickedCoords[0];
     const clickedLon = clickedCoords[1];
+    let language;
+    if (context.languagePack[0] === "ukr") language = "default";
+    if (context.languagePack[0] === "uk") language = "eng";
     fetch(
-      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${clickedLat}&longitude=${clickedLon}&localityLanguage=default`
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${clickedLat}&longitude=${clickedLon}&localityLanguage=${language}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -83,7 +86,7 @@ const LeafletMap = () => {
           <Errors message={ctx.errorMap}></Errors>
         );
         context.loaderOff();
-      });      
+      });
   };
 
   return (

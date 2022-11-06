@@ -9,7 +9,7 @@ import AppContext from "../store/app-context";
 const Main = () => {
   const context = useContext(AppContext);
 
-  const [currentType, setCurrentType] = useState(true);  
+  const [currentType, setCurrentType] = useState(true);
 
   const forecastTypeHandler = () => {
     setCurrentType((prevState) => (prevState = !prevState));
@@ -17,19 +17,13 @@ const Main = () => {
 
   return (
     <section className={classes.main}>
-      <InputCity       
+      <InputCity
         changeForecastType={forecastTypeHandler}
-        currentType={currentType}      
+        currentType={currentType}
       />
-      {context.showWeather && (
-        <LeafletMap />
-      )}
-      {currentType && (
-        <CurrentWeatherDashboard />
-      )}
-      {!currentType && (
-        <LongWeatherDashboard />
-      )}
+      {context.showWeather && <LeafletMap />}
+      {currentType && <CurrentWeatherDashboard />}
+      {!currentType && <LongWeatherDashboard />}
     </section>
   );
 };

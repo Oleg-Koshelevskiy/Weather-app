@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import languagePack from "./languagePack";
+import Errors from "../UI/Errors";
 
 const AppContext = createContext({
   languagePack: [],
@@ -21,6 +22,8 @@ const AppContext = createContext({
   useCoords: () => {},
   loaderOn: () => {},
   loaderOff: () => {},
+  getCityCoords: () => {},
+  getCurrentCoords: () => {},
 });
 
 export const AppContextProvider = (props) => {
@@ -41,6 +44,10 @@ export const AppContextProvider = (props) => {
       if (state === languagePack[0]) return languagePack[1];
       if (state === languagePack[1]) return languagePack[0];
     });
+    console.log(lang[1].fetchLang);
+    if (currentCity) {
+      coordsHandler(currentCity.coords[0], currentCity.coords[1]);
+    }
   };
 
   const getStoredCities = () => {
@@ -102,11 +109,109 @@ export const AppContextProvider = (props) => {
     setFavlist([]);
   };
 
-  const coordsHandler = async (lat, lon) => {
+  const getCityCoords = (cityName) => {
+    setIsLoading(true);
+
+    fetch(
+      `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`
+    )
+      .then((response1) => response1.json())
+      .then((data) => {
+        let cityLocalName;
+        if (lang[0] === "ukr") {
+          cityLocalName = data[0].local_names.uk;
+        } else {
+          cityLocalName = data[0].local_names.en;
+        }
+        let nativeName;
+        fetch(`https://restcountries.com/v3.1/alpha/${data[0].country}`)
+          .then((response2) => response2.json())
+          .then((data2) => {
+            console.log(data2);
+            if (lang[0] === "ukr") {
+              nativeName = Object.entries(data2[0].name.nativeName)[0][1]
+                .common;
+            } else {
+              nativeName = data2[0].name.common;
+            }
+
+            coordsHandler(data[0].lat, data[0].lon);
+
+            getCurrentCity(
+              data[0].lat,
+              data[0].lon,
+              `${nativeName}, ${cityLocalName}`
+            );
+            setIsLoading(false);
+          })
+          .catch((error) => {
+            console.log(error);
+            getCurrentCity(
+              null,
+              null,
+              <Errors message={lang[1].errorCountry}></Errors>
+            );
+            setIsLoading(false);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        getCurrentCity(
+          null,
+          null,
+          <Errors message={lang[1].errorCity}></Errors>
+        );
+        setIsLoading(false);
+      });
+  };
+
+  const getCurrentCoords = () => {
+    setIsLoading(true);
+    function success(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      let cityLocalName;
+      if (lang[0] === "ukr") {
+        cityLocalName = "default";
+      } else {
+        cityLocalName = "en";
+      }
+
+      fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${cityLocalName}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          coordsHandler(lat, lon);
+          getCurrentCity(lat, lon, `${data.countryName}, ${data.city}`);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setCurrentCity(
+            null,
+            null,
+            <Errors message={lang[1].errorCity}></Errors>
+          );
+          setIsLoading(false);
+        });
+    }
+
+    function error() {
+      getCurrentCity(null, null, <Errors message={lang[1].errorCity}></Errors>);
+      setIsLoading(false);
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error);
+  };
+
+  const coordsHandler = (lat, lon) => {
     setIsLoading(true);
     setCoords({ latitude: lat, longitude: lon });
+    console.log(lang[1].fetchLang);
 
-    await fetch(
+    fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang[1].fetchLang}`
     )
       .then((res) => res.json())
@@ -131,7 +236,7 @@ export const AppContextProvider = (props) => {
         setIsLoading(false);
       });
 
-    await fetch(
+    fetch(
       `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang[1].fetchLang}`
     )
       .then((response) => response.json())
@@ -143,17 +248,16 @@ export const AppContextProvider = (props) => {
       .catch((error) => {
         console.log(error);
         setIsLoading(false);
-      });;
-      
+      });
   };
 
   const LoadingOnHandler = () => {
-    setIsLoading(true)
-  }
+    setIsLoading(true);
+  };
 
   const LoadingOffHandler = () => {
-    setIsLoading(false)
-  }
+    setIsLoading(false);
+  };
 
   const appContext = {
     languagePack: lang,
@@ -175,6 +279,8 @@ export const AppContextProvider = (props) => {
     useCoords: coordsHandler,
     loaderOn: LoadingOnHandler,
     loaderOff: LoadingOffHandler,
+    getCityCoords: getCityCoords,
+    getCurrentCoords: getCurrentCoords,
   };
 
   return (
