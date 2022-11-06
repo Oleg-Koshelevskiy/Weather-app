@@ -1,6 +1,6 @@
 .component {
   background-image: url("../images/input-background.jpg");
-  background-repeat: no-repeat;
+  background-position: bottom;
   background-size: cover;
   max-width: 582px;
   padding: 1.9rem 1rem;

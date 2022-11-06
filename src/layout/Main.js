@@ -20,8 +20,6 @@ const Main = () => {
   if (month >= 3 && month <= 5) season = "seasonSpring";
   if (month >= 6 && month <= 8) season = "seasonSummer";
   if (month >= 9 && month <= 11) season = "seasonAutumn";
-  console.log(month);
-  console.log(season);
 
   return (
     <section className={classes.main}>
