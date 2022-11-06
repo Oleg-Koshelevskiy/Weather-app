@@ -1,8 +1,5 @@
 .dashboard {
   display: flex;
-  background-image: url("../images/autumn.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
   padding: 0.35rem;
   border-radius: 1rem;
   overflow-x: scroll;
@@ -11,4 +8,28 @@
   margin: 0 auto;
   box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.seasonWinter {
+  background: url("../images/winter.jpg");
+  background-position: bottom;
+  background-size: cover;
+}
+
+.seasonSpring {
+  background-image: url("../images/spring.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.seasonSummer {
+  background-image: url("../images/summer.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.seasonAutumn {
+  background-image: url("../images/autumn.jpg");
+  background-position: center;
+  background-size: cover;
 }

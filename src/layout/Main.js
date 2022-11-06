@@ -15,6 +15,14 @@ const Main = () => {
     setCurrentType((prevState) => (prevState = !prevState));
   };
 
+  let season = "seasonWinter";
+  const month = new Date().getMonth() + 1;
+  if (month >= 3 && month <= 5) season = "seasonSpring";
+  if (month >= 6 && month <= 8) season = "seasonSummer";
+  if (month >= 9 && month <= 11) season = "seasonAutumn";
+  console.log(month);
+  console.log(season);
+
   return (
     <section className={classes.main}>
       <InputCity
@@ -22,8 +30,8 @@ const Main = () => {
         currentType={currentType}
       />
       {context.showWeather && <LeafletMap />}
-      {currentType && <CurrentWeatherDashboard />}
-      {!currentType && <LongWeatherDashboard />}
+      {currentType && <CurrentWeatherDashboard season={season} />}
+      {!currentType && <LongWeatherDashboard season={season} />}
     </section>
   );
 };

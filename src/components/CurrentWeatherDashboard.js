@@ -6,7 +6,7 @@ import styles from "./CurrentWeatherDashboard.module.css";
 const CurrentWeatherDashboard = (props) => {
   const context = useContext(AppContext);
   const ctx = context.languagePack[1];
-  const now = context.currentWeatherData
+  const now = context.currentWeatherData;
 
   if (!context.showWeather) {
     return <CityNotChosen />;
@@ -63,7 +63,7 @@ const CurrentWeatherDashboard = (props) => {
   } else windDeg = `${ctx.wind.n}`;
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${styles[props.season]}`}>
       <div className={styles.row}>
         <div>
           {ctx.date}: {date}-{month}-{year}

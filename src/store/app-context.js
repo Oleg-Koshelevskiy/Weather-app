@@ -41,13 +41,9 @@ export const AppContextProvider = (props) => {
 
   const languageHandler = () => {
     setLang((state) => {
-      if (state === languagePack[0]) return languagePack[1];
-      if (state === languagePack[1]) return languagePack[0];
+      if (state[0] === "ukr") return languagePack[1];
+      if (state[0] === "uk") return languagePack[0];
     });
-    console.log(lang[1].fetchLang);
-    if (currentCity) {
-      coordsHandler(currentCity.coords[0], currentCity.coords[1]);
-    }
   };
 
   const getStoredCities = () => {
@@ -127,7 +123,6 @@ export const AppContextProvider = (props) => {
         fetch(`https://restcountries.com/v3.1/alpha/${data[0].country}`)
           .then((response2) => response2.json())
           .then((data2) => {
-            console.log(data2);
             if (lang[0] === "ukr") {
               nativeName = Object.entries(data2[0].name.nativeName)[0][1]
                 .common;
@@ -209,7 +204,6 @@ export const AppContextProvider = (props) => {
   const coordsHandler = (lat, lon) => {
     setIsLoading(true);
     setCoords({ latitude: lat, longitude: lon });
-    console.log(lang[1].fetchLang);
 
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang[1].fetchLang}`

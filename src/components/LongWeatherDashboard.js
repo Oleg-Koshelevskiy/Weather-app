@@ -6,6 +6,7 @@ import CityNotChosen from "./CityNotChosen";
 
 const LongWeatherDashboard = (props) => {
   const context = useContext(AppContext);
+
   if (!context.showWeather) {
     return <CityNotChosen />;
   }
@@ -14,7 +15,9 @@ const LongWeatherDashboard = (props) => {
     <LongWeatherItem item={item} key={Math.random()} />
   ));
 
-  return <div className={styles.dashboard}>{item}</div>;
+  return (
+    <div className={`${styles.dashboard} ${styles[props.season]}`}>{item}</div>
+  );
 };
 
 export default LongWeatherDashboard;
