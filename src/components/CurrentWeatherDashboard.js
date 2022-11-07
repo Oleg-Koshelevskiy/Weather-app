@@ -2,6 +2,7 @@ import { useContext } from "react";
 import AppContext from "../store/app-context";
 import CityNotChosen from "./CityNotChosen";
 import styles from "./CurrentWeatherDashboard.module.css";
+import seasonStyles from "./Seasons.module.css";
 
 const CurrentWeatherDashboard = (props) => {
   const context = useContext(AppContext);
@@ -63,7 +64,7 @@ const CurrentWeatherDashboard = (props) => {
   } else windDeg = `${ctx.wind.n}`;
 
   return (
-    <div className={`${styles.container} ${styles[props.season]}`}>
+    <div className={`${styles.container} ${seasonStyles[props.season]}`}>
       <div className={styles.row}>
         <div>
           {ctx.date}: {date}-{month}-{year}

@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import AppContext from "../store/app-context";
 import LongWeatherItem from "./LongWeatherItem";
-import styles from "./LongWeatherDashboard.module.css";
 import CityNotChosen from "./CityNotChosen";
+import styles from "./LongWeatherDashboard.module.css";
+import seasonStyles from "./Seasons.module.css";
 
 const LongWeatherDashboard = (props) => {
   const context = useContext(AppContext);
@@ -16,7 +17,9 @@ const LongWeatherDashboard = (props) => {
   ));
 
   return (
-    <div className={`${styles.dashboard} ${styles[props.season]}`}>{item}</div>
+    <div className={`${styles.dashboard} ${seasonStyles[props.season]}`}>
+      {item}
+    </div>
   );
 };
 
