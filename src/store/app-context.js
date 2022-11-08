@@ -5,6 +5,7 @@ import Errors from "../UI/Errors";
 const AppContext = createContext({
   languagePack: [],
   modalState: false,
+  infoState: false,
   currentCity: [],
   favCities: [],
   coords: [],
@@ -15,6 +16,8 @@ const AppContext = createContext({
   onChangeLanguage: () => {},
   modalOn: () => {},
   modalOff: () => {},
+  infoOn: () => {},
+  infoOff: () => {},
   addCurrentCity: () => {},
   addFavCity: () => {},
   removeFavCity: () => {},
@@ -29,6 +32,7 @@ const AppContext = createContext({
 export const AppContextProvider = (props) => {
   const [lang, setLang] = useState(languagePack[0]);
   const [modal, setModal] = useState(false);
+  const [info, setInfo] = useState(false);
   const [currentCity, setCurrentCity] = useState();
   const [favList, setFavlist] = useState();
 
@@ -68,6 +72,13 @@ export const AppContextProvider = (props) => {
   };
   const modalOffHandler = () => {
     setModal(false);
+  };
+
+  const infoOnHandler = () => {
+    setInfo(true);    
+  };
+  const infoOffHandler = () => {
+    setInfo(false);
   };
 
   const addFavCityHandler = () => {
@@ -256,6 +267,7 @@ export const AppContextProvider = (props) => {
   const appContext = {
     languagePack: lang,
     modalState: modal,
+    infoState: info,
     currentCity: currentCity,
     favCities: favList,
     coords: coords,
@@ -266,6 +278,8 @@ export const AppContextProvider = (props) => {
     onChangeLanguage: languageHandler,
     modalOn: modalOnHandler,
     modalOff: modalOffHandler,
+    infoOn: infoOnHandler,
+    infoOff: infoOffHandler,
     addCurrentCity: getCurrentCity,
     addFavCity: addFavCityHandler,
     removeFavCity: removeFavCityHandler,
