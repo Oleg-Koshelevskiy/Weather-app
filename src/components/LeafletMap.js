@@ -16,8 +16,8 @@ const LeafletMap = () => {
   const context = useContext(AppContext);
   const ctx = context.languagePack[1];
 
-  const lat = context.coords.latitude;
-  const lon = context.coords.longitude;
+  const lat = context.coords[0];
+  const lon = context.coords[1];
 
   const Recenter = () => {
     const map = useMap();

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
 import languagePack from "./languagePack";
 import Errors from "../UI/Errors";
 
@@ -29,81 +29,160 @@ const AppContext = createContext({
   getCurrentCoords: () => {},
 });
 
+const initialContext = {
+  lang: languagePack[0],
+  modal: false,
+  info: false,
+  currentCity: null,
+  favList: null,
+  coords: [],
+  currentWeatherData: [],
+  longWeatherData: [],
+  showWeather: false,
+  isLoading: false,
+};
+
+const contextReducer = (state, action) => {
+  if (action.type === "LANG") {
+    if (state.lang[0] === "ukr") action.lang = languagePack[1];
+    if (state.lang[0] === "eng") action.lang = languagePack[0];
+    console.log(action.lang);
+    return { ...state, lang: action.lang };
+  }
+
+  if (action.type === "MODAL-ON") {
+    action.modal = true;
+    return { ...state, modal: action.modal };
+  }
+
+  if (action.type === "MODAL-OFF") {
+    action.modal = false;
+    return { ...state, modal: action.modal };
+  }
+
+  if (action.type === "INFO-ON") {
+    action.info = true;
+    return { ...state, info: action.info };
+  }
+
+  if (action.type === "INFO-OFF") {
+    action.info = false;
+    return { ...state, info: action.info };
+  }
+
+  if (action.type === "LOAD-ON") {
+    action.isLoading = true;
+    return { ...state, isLoading: action.isLoading };
+  }
+
+  if (action.type === "LOAD-OFF") {
+    action.isLoading = false;
+    return { ...state, isLoading: action.isLoading };
+  }
+
+  if (action.type === "GET-CURRENT") {
+    return { ...state, currentCity: action.currentCity };
+  }
+
+  if (action.type === "COORDS") {
+    return { ...state, coords: action.coords };
+  }
+
+  if (action.type === "CURRENT-WEATHER") {
+    return { ...state, currentWeatherData: action.currentWeatherData };
+  }
+
+  if (action.type === "LONG-WEATHER") {
+    return { ...state, longWeatherData: action.longWeatherData };
+  }
+
+  if (action.type === "FAV-LIST") {
+    return { ...state, favList: action.favList };
+  }
+  if (action.type === "WEATHER-SHOW") {
+    action.showWeather = true;
+    return { ...state, showWeather: action.showWeather };
+  }
+  if (action.type === "WEATHER-HIDE") {
+    action.showWeather = false;
+    return { ...state, showWeather: action.showWeather };
+  }
+};
+
 export const AppContextProvider = (props) => {
-  const [lang, setLang] = useState(languagePack[0]);
-  const [modal, setModal] = useState(false);
-  const [info, setInfo] = useState(false);
-  const [currentCity, setCurrentCity] = useState();
-  const [favList, setFavlist] = useState();
-
-  const [coords, setCoords] = useState([]);
-  const [currentWeatherData, setCurrentWeatherData] = useState([]);
-  const [longWeatherData, setLongWeatherData] = useState([]);
-  const [showWeather, setShowWeather] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
+  const [contextState, dispatchContext] = useReducer(
+    contextReducer,
+    initialContext
+  );
 
   const languageHandler = () => {
-    setLang((state) => {
-      if (state[0] === "ukr") return languagePack[1];
-      if (state[0] === "uk") return languagePack[0];
-    });
+    dispatchContext({ type: "LANG" });
+    // console.log(contextState.lang[0]);
+    // if (contextState.coords.length > 0) {
+    //   weatherHandler(contextState.coords[0], contextState.coords[1]);
+    // }
   };
 
   const getStoredCities = () => {
     const storedCities = JSON.parse(localStorage.getItem("cities"));
     if (!storedCities) {
-      setFavlist();
+      dispatchContext({ type: "FAV-LIST", favList: [] });
     }
-    setFavlist(storedCities);
+    dispatchContext({ type: "FAV-LIST", favList: storedCities });
   };
 
-  const getCurrentCity = (lat, lon, name) => {
-    setCurrentCity({
-      id: `${lat}${lon}`,
-      coords: [lat, lon],
-      name: name ? name : "невідомо",
+  const currentCityHandler = (lat, lon, name) => {
+    dispatchContext({
+      type: "GET-CURRENT",
+      currentCity: { lat: lat, lon: lon, name: name },
     });
   };
 
   const modalOnHandler = () => {
-    setModal(true);
     getStoredCities();
+    dispatchContext({ type: "MODAL-ON" });
   };
   const modalOffHandler = () => {
-    setModal(false);
+    dispatchContext({ type: "MODAL-OFF" });
   };
 
   const infoOnHandler = () => {
-    setInfo(true);    
+    dispatchContext({ type: "INFO-ON" });
   };
   const infoOffHandler = () => {
-    setInfo(false);
+    dispatchContext({ type: "INFO-OFF" });
   };
 
   const addFavCityHandler = () => {
-    if (!currentCity) return alert("Оберіть місто!");
+    if (!contextState.currentCity) return alert("Оберіть місто!");
 
-    if (!favList) {
-      const storedCities = JSON.stringify([currentCity]);
+    if (!contextState.favList) {
+      const storedCities = JSON.stringify([contextState.currentCity]);
       localStorage.setItem("cities", storedCities);
       getStoredCities();
     }
 
-    const match = favList.find((item) => item.id === currentCity.id);
+    const match = contextState.favList.find(
+      (item) => item.id === contextState.currentCity.id
+    );
     if (match) {
       return;
     }
-    const storedCities = JSON.stringify([currentCity, ...favList]);
+    const storedCities = JSON.stringify([
+      contextState.currentCity,
+      ...contextState.favList,
+    ]);
     localStorage.setItem("cities", storedCities);
 
     getStoredCities();
   };
 
   const removeFavCityHandler = (id) => {
-    const favCityIndex = favList.findIndex((item) => item.id === id);
-    const favCityItem = favList[favCityIndex];
-    const updatedFavCities = favList.filter(
+    const favCityIndex = contextState.favList.findIndex(
+      (item) => item.id === id
+    );
+    const favCityItem = contextState.favList[favCityIndex];
+    const updatedFavCities = contextState.favList.filter(
       (item) => item.id !== favCityItem.id
     );
     const storedCities = JSON.stringify(updatedFavCities);
@@ -113,11 +192,11 @@ export const AppContextProvider = (props) => {
 
   const removeFavCities = () => {
     localStorage.clear();
-    setFavlist([]);
+    dispatchContext({ type: "FAV-LIST", favList: [] });
   };
 
   const getCityCoords = (cityName) => {
-    setIsLoading(true);
+    dispatchContext({ type: "LOAD-ON" });
 
     fetch(
       `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=5cab39ed37da4bbaf0e0d69a5bee3310`
@@ -125,7 +204,7 @@ export const AppContextProvider = (props) => {
       .then((response1) => response1.json())
       .then((data) => {
         let cityLocalName;
-        if (lang[0] === "ukr") {
+        if (contextState.lang[0] === "ukr") {
           cityLocalName = data[0].local_names.uk;
         } else {
           cityLocalName = data[0].local_names.en;
@@ -134,51 +213,51 @@ export const AppContextProvider = (props) => {
         fetch(`https://restcountries.com/v3.1/alpha/${data[0].country}`)
           .then((response2) => response2.json())
           .then((data2) => {
-            if (lang[0] === "ukr") {
+            if (contextState.lang[0] === "ukr") {
               nativeName = Object.entries(data2[0].name.nativeName)[0][1]
                 .common;
             } else {
               nativeName = data2[0].name.common;
             }
 
-            coordsHandler(data[0].lat, data[0].lon);
+            weatherHandler(data[0].lat, data[0].lon);
 
-            getCurrentCity(
+            currentCityHandler(
               data[0].lat,
               data[0].lon,
               `${nativeName}, ${cityLocalName}`
             );
-            setIsLoading(false);
+            dispatchContext({ type: "LOAD-OFF" });
           })
           .catch((error) => {
             console.log(error);
-            getCurrentCity(
+            currentCityHandler(
               null,
               null,
-              <Errors message={lang[1].errorCountry}></Errors>
+              <Errors message={contextState.lang[1].errorCountry}></Errors>
             );
-            setIsLoading(false);
+            dispatchContext({ type: "LOAD-OFF" });
           });
       })
       .catch((error) => {
         console.log(error);
-        getCurrentCity(
+        currentCityHandler(
           null,
           null,
-          <Errors message={lang[1].errorCity}></Errors>
+          <Errors message={contextState.lang[1].errorCity}></Errors>
         );
-        setIsLoading(false);
+        dispatchContext({ type: "LOAD-OFF" });
       });
   };
 
   const getCurrentCoords = () => {
-    setIsLoading(true);
+    dispatchContext({ type: "LOAD-ON" });
     function success(position) {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
 
       let cityLocalName;
-      if (lang[0] === "ukr") {
+      if (contextState.lang[0] === "ukr") {
         cityLocalName = "default";
       } else {
         cityLocalName = "en";
@@ -189,102 +268,102 @@ export const AppContextProvider = (props) => {
       )
         .then((res) => res.json())
         .then((data) => {
-          coordsHandler(lat, lon);
-          getCurrentCity(lat, lon, `${data.countryName}, ${data.city}`);
-          setIsLoading(false);
+          console.log(lat, lon);
+          weatherHandler(lat, lon);
+          currentCityHandler(lat, lon, `${data.countryName}, ${data.city}`);
+          dispatchContext({ type: "LOAD-OFF" });
         })
         .catch((error) => {
           console.log(error.message);
-          setCurrentCity(
-            null,
-            null,
-            <Errors message={lang[1].errorCity}></Errors>
-          );
-          setIsLoading(false);
+          dispatchContext({
+            type: "GET-CURRENT",
+            lat: null,
+            lon: null,
+            name: <Errors message={contextState.lang[1].errorCity}></Errors>,
+          });
+          dispatchContext({ type: "LOAD-OFF" });
         });
     }
 
     function error() {
-      getCurrentCity(null, null, <Errors message={lang[1].errorCity}></Errors>);
-      setIsLoading(false);
+      currentCityHandler(
+        null,
+        null,
+        <Errors message={contextState.lang[1].errorCity}></Errors>
+      );
+      dispatchContext({ type: "LOAD-OFF" });
     }
 
     navigator.geolocation.getCurrentPosition(success, error);
   };
 
-  const coordsHandler = (lat, lon) => {
-    setIsLoading(true);
-    setCoords({ latitude: lat, longitude: lon });
+  const weatherHandler = (lat, lon) => {
+    dispatchContext({ type: "LOAD-ON" });
+    dispatchContext({ type: "COORDS", coords: [lat, lon] });
 
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang[1].fetchLang}`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${contextState.lang[1].fetchLang}`
     )
       .then((res) => res.json())
       .then((data) => {
-        setCurrentWeatherData({
-          clouds: data.clouds.all,
-          date: data.dt,
-          tempFact: data.main.temp,
-          tempFeels: data.main.feels_like,
-          press: data.main.pressure,
-          sunrise: data.sys.sunrise,
-          sunset: data.sys.sunset,
-          sky: data.weather[0].description,
-          icon: data.weather[0].icon,
-          windSpeed: data.wind.speed,
-          windDeg: data.wind.deg,
+        dispatchContext({
+          type: "CURRENT-WEATHER",
+          currentWeatherData: data,
         });
-        setIsLoading(false);
+        dispatchContext({ type: "LOAD-OFF" });
       })
       .catch((error) => {
         console.log(error);
-        setIsLoading(false);
+        dispatchContext({ type: "LOAD-OFF" });
       });
 
     fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${lang[1].fetchLang}`
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5cab39ed37da4bbaf0e0d69a5bee3310&units=metric&lang=${contextState.lang[1].fetchLang}`
     )
       .then((response) => response.json())
       .then((data) => {
-        setLongWeatherData(data.list);
-        setShowWeather(true);
-        setIsLoading(false);
+        dispatchContext({
+          type: "LONG-WEATHER",
+          longWeatherData: data.list,
+        });
+        dispatchContext({ type: "WEATHER-SHOW" });
+        dispatchContext({ type: "LOAD-OFF" });
       })
       .catch((error) => {
         console.log(error);
-        setIsLoading(false);
+        dispatchContext({ type: "LOAD-OFF" });
       });
   };
 
   const LoadingOnHandler = () => {
-    setIsLoading(true);
+    dispatchContext({ type: "LOAD-ON" });
   };
 
   const LoadingOffHandler = () => {
-    setIsLoading(false);
+    dispatchContext({ type: "LOAD-OFF" });
   };
 
   const appContext = {
-    languagePack: lang,
-    modalState: modal,
-    infoState: info,
-    currentCity: currentCity,
-    favCities: favList,
-    coords: coords,
-    currentWeatherData: currentWeatherData,
-    longWeatherData: longWeatherData,
-    showWeather: showWeather,
-    isLoading: isLoading,
+    languagePack: contextState.lang,
+    modalState: contextState.modal,
+    infoState: contextState.info,
+    currentCity: contextState.currentCity,
+    favCities: contextState.favList,
+    coords: contextState.coords,
+    currentWeatherData: contextState.currentWeatherData,
+    longWeatherData: contextState.longWeatherData,
+    showWeather: contextState.showWeather,
+    isLoading: contextState.isLoading,
     onChangeLanguage: languageHandler,
     modalOn: modalOnHandler,
     modalOff: modalOffHandler,
     infoOn: infoOnHandler,
     infoOff: infoOffHandler,
-    addCurrentCity: getCurrentCity,
+    addCurrentCity: currentCityHandler,
     addFavCity: addFavCityHandler,
     removeFavCity: removeFavCityHandler,
     clearAll: removeFavCities,
-    useCoords: coordsHandler,
+    useCoords: weatherHandler,
     loaderOn: LoadingOnHandler,
     loaderOff: LoadingOffHandler,
     getCityCoords: getCityCoords,

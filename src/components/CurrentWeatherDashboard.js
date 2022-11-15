@@ -8,17 +8,30 @@ const CurrentWeatherDashboard = (props) => {
   const context = useContext(AppContext);
   const ctx = context.languagePack[1];
   const now = context.currentWeatherData;
+  console.log(now);
+
+  // clouds: now.clouds.all,
+  // date: now.dt,
+  // tempFact: now.main.temp,
+  // tempFeels: now.main.feels_like,
+  // press: now.main.pressure,
+  // sunrise: now.sys.sunrise,
+  // sunset: now.sys.sunset,
+  // sky: now.weather[0].description,
+  // icon: now.weather[0].icon,
+  // windSpeed: now.wind.speed,
+  // windDeg: now.wind.deg,
 
   if (!context.showWeather) {
     return <CityNotChosen />;
   }
 
   let options = { weekday: "long" };
-  const clouds = now.clouds;
-  const dateObj = new Date(now.date * 1000);
+  const clouds = now.clouds.all;
+  const dateObj = new Date(now.dt * 1000);
   const date = dateObj.getDate();
   const day = new Intl.DateTimeFormat(`${ctx.dateFormat}`, options).format(
-    now.date * 1000
+    now.dt * 1000
   );
   const month = dateObj.getMonth() + 1;
   const year = dateObj.getFullYear();
@@ -30,29 +43,29 @@ const CurrentWeatherDashboard = (props) => {
   if (minutes <= 9) {
     minutes = "0" + minutes;
   }
-  const tempFact = Math.round(now.tempFact);
-  const tempFeels = Math.round(now.tempFeels);
-  const press = Math.round(now.press * 0.75006375541921);
-  let sunriseHours = new Date(now.sunrise * 1000).getHours();
+  const tempFact = Math.round(now.main.temp);
+  const tempFeels = Math.round(now.main.feels_like);
+  const press = Math.round(now.main.pressure * 0.75006375541921);
+  let sunriseHours = new Date(now.sys.sunrise * 1000).getHours();
   if (sunriseHours <= 9) {
     sunriseHours = "0" + sunriseHours;
   }
-  let sunriseMins = new Date(now.sunrise * 1000).getHours();
+  let sunriseMins = new Date(now.sys.sunrise * 1000).getHours();
   if (sunriseMins <= 9) {
     sunriseMins = "0" + sunriseMins;
   }
-  let sunsetHours = new Date(now.sunset * 1000).getHours();
+  let sunsetHours = new Date(now.sys.sunset * 1000).getHours();
   if (sunsetHours <= 9) {
     sunsetHours = "0" + sunsetHours;
   }
-  let sunsetMins = new Date(now.sunset * 1000).getHours();
+  let sunsetMins = new Date(now.sys.sunset * 1000).getHours();
   if (sunsetMins <= 9) {
     sunsetMins = "0" + sunsetMins;
   }
-  const sky = now.sky;
-  const icon = `/icons/${now.icon}.png`;
-  const windSpeed = Math.round(now.windSpeed);
-  let windDeg = now.windDeg;
+  const sky = now.weather[0].description;
+  const icon = `/icons/${now.weather[0].icon}.png`;
+  const windSpeed = Math.round(now.wind.speed);
+  let windDeg = now.wind.deg;
   if (windDeg >= 22.5 && windDeg < 67.5) windDeg = `${ctx.wind.ne}`;
   if (windDeg >= 67.5 && windDeg < 112.5) windDeg = `${ctx.wind.e}`;
   if (windDeg >= 112.5 && windDeg < 157.5) windDeg = `${ctx.wind.se}`;

@@ -42,16 +42,18 @@ const languagePack = [
       errorCountry: "Помилка! Не вдалось отримати дані країни",
       errorCity: "Помилка! Не вдалось отримати дані міста",
       errorMap: "Помилка! Не вдалось отримати дані з карти",
-      infoHeader: 'Можливості додатку',
-      infoLi1: 'Прапор країни - мова додатку',
-      infoLi2: 'Обрані локації - можливість формувати перелік улюблених міст для швидкого доступу до погоди',
-      infoLi3: 'Запит погоди відповідно до поточних координат',
-      infoLi4: 'Запит погоди відповідно до введеної назви міста',
-      infoLi5: 'На карті відображаються координати обраного міста. Також є можливість обирати нові координати за допомогою маркеру',
+      infoHeader: "Можливості додатку",
+      infoLi1: "Прапор країни - мова додатку",
+      infoLi2:
+        "Обрані локації - можливість формувати перелік улюблених міст для швидкого доступу до погоди",
+      infoLi3: "Запит погоди відповідно до поточних координат",
+      infoLi4: "Запит погоди відповідно до введеної назви міста",
+      infoLi5:
+        "На карті відображаються координати обраного міста. Також є можливість обирати нові координати за допомогою маркеру",
     },
   ],
   [
-    "uk",
+    "eng",
     {
       name: "ENG",
       background: "button-uk",
@@ -93,12 +95,14 @@ const languagePack = [
       errorCountry: "Error! Can't receive country data",
       errorCity: "Error! Can't receive city data",
       errorMap: "Error! Can't receive map data",
-      infoHeader: 'App features',
-      infoLi1: 'Country flag - app language',
-      infoLi2: 'Favorite locations - posibility to form a list of favorite sities for fast access to weather forecast',
-      infoLi3: 'Weather request according to current coordinates',
-      infoLi4: 'Weather reques according to input city name',
-      infoLi5: 'Current city coordinates are displayed on the map. Also it is possible to choose new coordinates using marker',
+      infoHeader: "App features",
+      infoLi1: "Country flag - app language",
+      infoLi2:
+        "Favorite locations - posibility to form a list of favorite sities for fast access to weather forecast",
+      infoLi3: "Weather request according to current coordinates",
+      infoLi4: "Weather reques according to input city name",
+      infoLi5:
+        "Current city coordinates are displayed on the map. Also it is possible to choose new coordinates using marker",
     },
   ],
 ];

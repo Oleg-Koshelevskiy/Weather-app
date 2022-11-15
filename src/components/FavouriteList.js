@@ -28,7 +28,8 @@ const FavouriteList = () => {
 
       return (
         <div className={styles.item} key={city.id}>
-          <button className={styles.btnCity}
+          <button
+            className={styles.btnCity}
             onClick={getCityWeather.bind(
               null,
               city.coords[0],
@@ -50,19 +51,22 @@ const FavouriteList = () => {
     <Modal>
       <div className={styles.main}>
         <h2 className={styles.header}>{ctx.chosen}</h2>
-        <div >
-          <button className={styles.btnClose} onClick={context.modalOff}></button>
+        <div>
+          <button
+            className={styles.btnClose}
+            onClick={context.modalOff}
+          ></button>
         </div>
       </div>
       <div className={styles.group}>
         <button onClick={context.addFavCity} className={styles.popupAddBtn}>
           {ctx.addCoords}
-        </button>        
+        </button>
       </div>
       <div>{cities}</div>
       <button onClick={context.clearAll} className={styles.popupDelBtn}>
-          {ctx.clearAll}
-        </button>
+        {ctx.clearAll}
+      </button>
     </Modal>
   );
 };

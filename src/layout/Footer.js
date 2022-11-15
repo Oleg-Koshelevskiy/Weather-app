@@ -4,7 +4,6 @@ import Card from "../UI/Card";
 import styles from "./Footer.module.css";
 
 const Footer = () => {
-
   const context = useContext(AppContext);
 
   return (
