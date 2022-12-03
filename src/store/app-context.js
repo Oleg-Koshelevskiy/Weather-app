@@ -134,7 +134,7 @@ export const AppContextProvider = (props) => {
   const currentCityHandler = (lat, lon, name) => {
     dispatchContext({
       type: "GET-CURRENT",
-      currentCity: { lat: lat, lon: lon, name: name },
+      currentCity: { id: `${lat}${lon}`, coords: [lat, lon], name: name },
     });
   };
 

@@ -15,6 +15,7 @@ const FavouriteList = () => {
   };
 
   const citiesArray = context.favCities;
+  console.log(citiesArray);
   if (!citiesArray) {
     cities = ctx.errorMsg;
   } else {
