@@ -9,6 +9,7 @@ const AppContext = createContext({
   currentCity: [],
   favCities: [],
   coords: [],
+  defaultCoords: null,
   currentWeatherData: [],
   longWeatherData: [],
   showWeather: false,
@@ -27,6 +28,7 @@ const AppContext = createContext({
   loaderOff: () => {},
   getCityCoords: () => {},
   getCurrentCoords: () => {},
+  changeDefaultCoords: () => {},
 });
 
 const initialContext = {
@@ -40,6 +42,7 @@ const initialContext = {
   longWeatherData: [],
   showWeather: false,
   isLoading: false,
+  defaultCoords: null,
 };
 
 const contextReducer = (state, action) => {
@@ -107,6 +110,22 @@ const contextReducer = (state, action) => {
     action.showWeather = false;
     return { ...state, showWeather: action.showWeather };
   }
+  if (action.type === "CHANGE-DEFAULT") {
+    if (!state.currentCity) {
+      alert(`${state.lang[1].unchosenCity}`);
+      return state;
+    }
+    if (!state.defaultCoords) {
+      action.defaultCoords = state.currentCity;
+      const defaultCity = JSON.stringify([state.currentCity]);
+      localStorage.setItem("default", defaultCity);
+      return { ...state, defaultCoords: action.defaultCoords };
+    } else {
+      localStorage.removeItem("default");
+      action.defaultCoords = null;
+      return { ...state, defaultCoords: action.defaultCoords };
+    }
+  }
 };
 
 export const AppContextProvider = (props) => {
@@ -163,7 +182,7 @@ export const AppContextProvider = (props) => {
     }
 
     const match = contextState.favList.find(
-      (item) => item.id === contextState.currentCity.id
+      (item) => item.name === contextState.currentCity.name
     );
     if (match) {
       return;
@@ -343,6 +362,10 @@ export const AppContextProvider = (props) => {
     dispatchContext({ type: "LOAD-OFF" });
   };
 
+  const changeDefaultCoordsHandler = () => {
+    dispatchContext({ type: "CHANGE-DEFAULT" });
+  };
+
   const appContext = {
     languagePack: contextState.lang,
     modalState: contextState.modal,
@@ -350,6 +373,7 @@ export const AppContextProvider = (props) => {
     currentCity: contextState.currentCity,
     favCities: contextState.favList,
     coords: contextState.coords,
+    defaultCoords: contextState.defaultCoords,
     currentWeatherData: contextState.currentWeatherData,
     longWeatherData: contextState.longWeatherData,
     showWeather: contextState.showWeather,
@@ -368,6 +392,7 @@ export const AppContextProvider = (props) => {
     loaderOff: LoadingOffHandler,
     getCityCoords: getCityCoords,
     getCurrentCoords: getCurrentCoords,
+    changeDefaultCoords: changeDefaultCoordsHandler,
   };
 
   return (

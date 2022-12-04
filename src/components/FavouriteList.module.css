@@ -8,7 +8,7 @@
   margin: 0 auto;
 }
 
-.item {  
+.item {
   display: flex;
   padding: 0.25rem;
   justify-content: space-between;
@@ -17,20 +17,20 @@
   margin: 0 0 0 auto;
   height: 32px;
   width: 32px;
-  background: url(../images//cancel.png) no-repeat; 
+  background: url(../images//cancel.png) no-repeat;
   background-size: cover;
   border: none;
   border-radius: 50%;
 }
 .btnClose:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 1rem rgb(255, 90, 90);  
+  box-shadow: 0 0 1rem rgb(255, 90, 90);
 }
 .btnCity {
   font-size: 1rem;
   color: white;
   border: none;
-  background: none;  
+  background: none;
 }
 .btnCity:hover {
   color: rgb(255, 182, 182);
@@ -38,21 +38,24 @@
   background: none;
   transform: scale(1.1);
 }
+.useDefault {
+  background-color: rgb(17, 146, 36);
+}
 .popupAddBtn {
   display: block;
   margin: 1rem auto;
-  border: none;  
+  border: none;
 }
 .popupAddBtn:hover {
   color: white;
   background-color: rgb(78, 146, 93);
-  border: rgb(19, 78, 32);   
+  border: rgb(19, 78, 32);
 }
 .popupDelBtn {
   color: white;
   background-color: rgb(255, 71, 71);
   display: block;
-  margin: 1rem 0 0 auto;  
+  margin: 1rem 0 0 auto;
 }
 .popupDelBtn:hover {
   background-color: rgb(199, 32, 32);
@@ -60,8 +63,8 @@
 }
 
 @media (max-width: 500px) {
-  .btnClose {    
+  .btnClose {
     height: 24px;
-    width: 24px;    
+    width: 24px;
   }
 }
