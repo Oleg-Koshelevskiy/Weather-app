@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import InputCity from "../components/InputCity";
 import CurrentWeatherDashboard from "../components/CurrentWeatherDashboard";
 import LongWeatherDashboard from "../components/LongWeatherDashboard";
@@ -20,6 +20,26 @@ const Main = () => {
   if (month >= 3 && month <= 5) season = "seasonSpring";
   if (month >= 6 && month <= 8) season = "seasonSummer";
   if (month >= 9 && month <= 11) season = "seasonAutumn";
+
+  const defaultCity = context.defaultCoords?.[0];
+  const coords = context.useCoords;
+  const currentCity = context.addCurrentCity;
+
+  useEffect(() => {
+    if (defaultCity) {
+      console.log(defaultCity);
+      coords(defaultCity.coords[0], defaultCity.coords[1]);
+      currentCity(
+        defaultCity.coords[0],
+        defaultCity.coords[1],
+        defaultCity.name
+      );
+      return;
+    }
+    if (!defaultCity) {
+      return;
+    }
+  }, []);
 
   return (
     <section className={classes.main}>

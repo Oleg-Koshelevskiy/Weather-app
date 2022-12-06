@@ -23,7 +23,12 @@ const InputCity = (props) => {
     }
   };
 
-  if (context.defaultCoords) {
+  if (
+    context.defaultCoords &&
+    context.currentCity &&
+    context.defaultCoords.name === context.currentCity.name
+  ) {
+    console.log(context.defaultCoords.name, context.currentCity.name);
     cityHeaderStyle = `${styles.city} ${styles.useDefault}`;
   } else {
     cityHeaderStyle = `${styles.city} ${styles.clearDefault}`;
