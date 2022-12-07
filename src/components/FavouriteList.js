@@ -27,10 +27,17 @@ const FavouriteList = () => {
 
       const shortName = city.name.slice(city.name.indexOf(",") + 2);
 
+      let cityStyle;
+      if (context.defaultCoords?.name === city.name) {
+        cityStyle = `${styles.btnCity} ${styles.useDefault}`;
+      } else {
+        cityStyle = styles.btnCity;
+      }
+
       return (
         <div className={styles.item} key={city.id}>
           <button
-            className={styles.btnCity}
+            className={cityStyle}
             onClick={getCityWeather.bind(
               null,
               city.coords[0],

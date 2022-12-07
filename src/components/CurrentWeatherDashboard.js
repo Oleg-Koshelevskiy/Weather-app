@@ -8,7 +8,6 @@ const CurrentWeatherDashboard = (props) => {
   const context = useContext(AppContext);
   const ctx = context.languagePack[1];
   const now = context.currentWeatherData;
-  console.log(now);
 
   // clouds: now.clouds.all,
   // date: now.dt,

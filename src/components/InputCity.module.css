@@ -50,10 +50,19 @@
 
 .city {
   color: rgb(255, 255, 255);
-  background-color: rgba(167, 100, 1, 0.616);
   border-radius: 0.5rem;
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
+  padding: 0 0.5rem;
+}
+.useDefault {
+  background-color: rgb(17, 146, 36);
+}
+.clearDefault {
+  background-color: rgba(167, 100, 1, 0.616);
+}
+.city:hover {
+  cursor: pointer;
 }
 
 @media (max-width: 430px) {
@@ -74,5 +83,6 @@
     border-radius: 0.25rem;
     display: inline-block;
     margin: 0.5rem 0 0.25rem 0;
+    padding: 0 0.25rem;
   }
 }

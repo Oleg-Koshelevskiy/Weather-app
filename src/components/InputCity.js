@@ -14,6 +14,26 @@ const InputCity = (props) => {
 
   let cityHeader;
 
+  let cityHeaderStyle;
+
+  const defaultCityHandler = (event) => {
+    console.log(event);
+    if (event.detail === 2) {
+      context.changeDefaultCoords();
+    }
+  };
+
+  if (
+    context.defaultCoords &&
+    context.currentCity &&
+    context.defaultCoords.name === context.currentCity.name
+  ) {
+    console.log(context.defaultCoords.name, context.currentCity.name);
+    cityHeaderStyle = `${styles.city} ${styles.useDefault}`;
+  } else {
+    cityHeaderStyle = `${styles.city} ${styles.clearDefault}`;
+  }
+
   if (context.currentCity) {
     cityHeader = context.currentCity.name;
   } else {
@@ -59,7 +79,9 @@ const InputCity = (props) => {
         {forecastType}
       </Button>
       <br />
-      <h3 className={styles.city}>{cityHeader}</h3>
+      <h3 onClick={defaultCityHandler} className={cityHeaderStyle}>
+        {cityHeader}
+      </h3>
     </div>
   );
 };
