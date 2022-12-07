@@ -27,7 +27,6 @@ const Main = () => {
 
   useEffect(() => {
     if (defaultCity) {
-      console.log(defaultCity);
       coords(defaultCity.coords[0], defaultCity.coords[1]);
       currentCity(
         defaultCity.coords[0],
@@ -39,7 +38,7 @@ const Main = () => {
     if (!defaultCity) {
       return;
     }
-  }, []);
+  }, [defaultCity]);
 
   return (
     <section className={classes.main}>

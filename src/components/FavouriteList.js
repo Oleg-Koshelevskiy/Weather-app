@@ -28,7 +28,10 @@ const FavouriteList = () => {
       const shortName = city.name.slice(city.name.indexOf(",") + 2);
 
       let cityStyle;
-      if (context.defaultCoords?.name === city.name) {
+      if (
+        context.defaultCoords &&
+        context.defaultCoords[0].name === city.name
+      ) {
         cityStyle = `${styles.btnCity} ${styles.useDefault}`;
       } else {
         cityStyle = styles.btnCity;
