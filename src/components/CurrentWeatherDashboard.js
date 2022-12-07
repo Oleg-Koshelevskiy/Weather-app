@@ -9,18 +9,6 @@ const CurrentWeatherDashboard = (props) => {
   const ctx = context.languagePack[1];
   const now = context.currentWeatherData;
 
-  // clouds: now.clouds.all,
-  // date: now.dt,
-  // tempFact: now.main.temp,
-  // tempFeels: now.main.feels_like,
-  // press: now.main.pressure,
-  // sunrise: now.sys.sunrise,
-  // sunset: now.sys.sunset,
-  // sky: now.weather[0].description,
-  // icon: now.weather[0].icon,
-  // windSpeed: now.wind.speed,
-  // windDeg: now.wind.deg,
-
   if (!context.showWeather) {
     return <CityNotChosen />;
   }

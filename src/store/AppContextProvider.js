@@ -7,14 +7,14 @@ const initialContext = {
   lang: languagePack[0],
   modal: false,
   info: false,
-  currentCity: null,
+  currentCity: JSON.parse(localStorage.getItem("default")) || null,
   favList: null,
   coords: [],
   currentWeatherData: [],
   longWeatherData: [],
   showWeather: false,
   isLoading: false,
-  defaultCoords: JSON.parse(localStorage.getItem("default")),
+  defaultCoords: JSON.parse(localStorage.getItem("default")) || null,
 };
 
 const contextReducer = (state, action) => {
@@ -89,9 +89,11 @@ const contextReducer = (state, action) => {
     }
     if (!state.defaultCoords) {
       action.defaultCoords = state.currentCity;
-      const defaultCity = JSON.stringify([state.currentCity]);
+      const defaultCity = JSON.stringify(state.currentCity);
       localStorage.setItem("default", defaultCity);
       return { ...state, defaultCoords: action.defaultCoords };
+    }
+    if (state.defaultCoords !== state.currentCity) {
     } else {
       localStorage.removeItem("default");
       action.defaultCoords = null;
@@ -121,7 +123,7 @@ const AppContextProvider = (props) => {
   const currentCityHandler = (lat, lon, name) => {
     dispatchContext({
       type: "GET-CURRENT",
-      currentCity: { id: `${lat}${lon}`, coords: [lat, lon], name: name },
+      currentCity: [{ id: `${lat}${lon}`, coords: [lat, lon], name: name }],
     });
   };
 
@@ -255,7 +257,6 @@ const AppContextProvider = (props) => {
       )
         .then((res) => res.json())
         .then((data) => {
-          console.log(lat, lon);
           weatherHandler(lat, lon);
           currentCityHandler(lat, lon, `${data.countryName}, ${data.city}`);
           dispatchContext({ type: "LOAD-OFF" });

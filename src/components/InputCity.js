@@ -17,7 +17,6 @@ const InputCity = (props) => {
   let cityHeaderStyle;
 
   const defaultCityHandler = (event) => {
-    console.log(event);
     if (event.detail === 2) {
       context.changeDefaultCoords();
     }
@@ -26,16 +25,15 @@ const InputCity = (props) => {
   if (
     context.defaultCoords &&
     context.currentCity &&
-    context.defaultCoords.name === context.currentCity.name
+    context.defaultCoords[0].name === context.currentCity[0].name
   ) {
-    console.log(context.defaultCoords.name, context.currentCity.name);
     cityHeaderStyle = `${styles.city} ${styles.useDefault}`;
   } else {
     cityHeaderStyle = `${styles.city} ${styles.clearDefault}`;
   }
 
   if (context.currentCity) {
-    cityHeader = context.currentCity.name;
+    cityHeader = context.currentCity[0].name;
   } else {
     cityHeader = ctx.unchosenCity;
   }
