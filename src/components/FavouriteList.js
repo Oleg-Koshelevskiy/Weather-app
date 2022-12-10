@@ -37,6 +37,10 @@ const FavouriteList = () => {
         cityStyle = styles.btnCity;
       }
 
+      console.log(city.lat,
+        city.lon,
+        city.name)
+
       return (
         <div className={styles.item} key={city.id}>
           <button

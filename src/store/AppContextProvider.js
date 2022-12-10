@@ -9,7 +9,7 @@ const initialContext = {
   info: false,
   currentCity: JSON.parse(localStorage.getItem("default")) || null,
   favList: null,
-  coords: [],
+  coords: JSON.parse(localStorage.getItem("default"))[0].coords || [],
   currentWeatherData: [],
   longWeatherData: [],
   showWeather: false,
@@ -92,9 +92,12 @@ const contextReducer = (state, action) => {
       const defaultCity = JSON.stringify(state.currentCity);
       localStorage.setItem("default", defaultCity);
       return { ...state, defaultCoords: action.defaultCoords };
+    } if (state.currentCity && state.defaultCoords && state.currentCity !== state.defaultCoords) {
+      const defaultCity = JSON.stringify(state.currentCity);
+      localStorage.setItem("default", defaultCity);
+      return { ...state, defaultCoords: action.defaultCoords }
     }
-    if (state.defaultCoords !== state.currentCity) {
-    } else {
+    else {
       localStorage.removeItem("default");
       action.defaultCoords = null;
       return { ...state, defaultCoords: action.defaultCoords };
@@ -146,7 +149,7 @@ const AppContextProvider = (props) => {
     if (!contextState.currentCity) return alert("Оберіть місто!");
 
     if (!contextState.favList) {
-      const storedCities = JSON.stringify([contextState.currentCity]);
+      const storedCities = JSON.stringify(contextState.currentCity);
       localStorage.setItem("cities", storedCities);
       getStoredCities();
     }
@@ -158,7 +161,7 @@ const AppContextProvider = (props) => {
       return;
     }
     const storedCities = JSON.stringify([
-      contextState.currentCity,
+      contextState.currentCity[0],
       ...contextState.favList,
     ]);
     localStorage.setItem("cities", storedCities);

@@ -34,7 +34,7 @@ const LeafletMap = () => {
           {clickedCoords ? (
             <button onClick={getClickedCoordsData}>{ctx.btnShow}</button>
           ) : (
-            context.currentCity.name
+            context.currentCity[0].name
           )}
         </Popup>
       </Marker>
