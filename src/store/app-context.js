@@ -7,6 +7,7 @@ const AppContext = createContext({
   currentCity: [],
   favCities: [],
   coords: [],
+  cityStyle: "",
   defaultCoords: null,
   currentWeatherData: [],
   longWeatherData: [],

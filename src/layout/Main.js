@@ -38,7 +38,7 @@ const Main = () => {
     if (!defaultCity) {
       return;
     }
-  }, [defaultCity]);
+  }, []);
 
   return (
     <section className={classes.main}>

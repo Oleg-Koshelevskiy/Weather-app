@@ -15,7 +15,6 @@ const FavouriteList = () => {
   };
 
   const citiesArray = context.favCities;
-  console.log(citiesArray)
   if (!citiesArray) {
     cities = ctx.errorMsg;
   } else {
@@ -36,10 +35,6 @@ const FavouriteList = () => {
       } else {
         cityStyle = styles.btnCity;
       }
-
-      console.log(city.lat,
-        city.lon,
-        city.name)
 
       return (
         <div className={styles.item} key={city.id}>

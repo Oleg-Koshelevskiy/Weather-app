@@ -9,7 +9,7 @@ const initialContext = {
   info: false,
   currentCity: JSON.parse(localStorage.getItem("default")) || null,
   favList: null,
-  coords: JSON.parse(localStorage.getItem("default"))[0].coords || [],
+  coords: [],
   currentWeatherData: [],
   longWeatherData: [],
   showWeather: false,
@@ -91,17 +91,30 @@ const contextReducer = (state, action) => {
       action.defaultCoords = state.currentCity;
       const defaultCity = JSON.stringify(state.currentCity);
       localStorage.setItem("default", defaultCity);
-      return { ...state, defaultCoords: action.defaultCoords };
-    } if (state.currentCity && state.defaultCoords && state.currentCity !== state.defaultCoords) {
+      return {
+        ...state,
+        defaultCoords: action.defaultCoords,
+      };
+    }
+    if (
+      state.currentCity &&
+      state.defaultCoords &&
+      state.currentCity !== state.defaultCoords
+    ) {
       const defaultCity = JSON.stringify(state.currentCity);
       localStorage.setItem("default", defaultCity);
-      return { ...state, defaultCoords: action.defaultCoords }
+      return {
+        ...state,
+        defaultCoords: action.defaultCoords,
+      };
     }
-    else {
-      localStorage.removeItem("default");
-      action.defaultCoords = null;
-      return { ...state, defaultCoords: action.defaultCoords };
-    }
+
+    action.defaultCoords = null;
+    localStorage.removeItem("default");
+    return {
+      ...state,
+      defaultCoords: action.defaultCoords,
+    };
   }
 };
 
