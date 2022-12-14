@@ -1,6 +1,9 @@
 {
   "short_name": "Weather App",
   "name": "Smart App with Weather and Map",
+  "storage": {
+    "managed_schema": "schema.json"
+  },
   "icons": [
     {
       "src": "favicon.ico",
