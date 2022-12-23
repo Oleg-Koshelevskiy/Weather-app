@@ -19,9 +19,6 @@ const InputCity = (props) => {
   const defaultCityHandler = (event) => {
     if (event.detail === 2) {
       context.changeDefaultCoords();
-      localStorage.setItem("test", "1");
-      const test = localStorage.getItem("test");
-      alert(test);
     }
   };
 
@@ -30,7 +27,6 @@ const InputCity = (props) => {
     context.currentCity &&
     context.defaultCoords[0].name === context.currentCity[0].name
   ) {
-    
     cityHeaderStyle = `${styles.city} ${styles.useDefault}`;
   } else {
     cityHeaderStyle = `${styles.city} ${styles.clearDefault}`;

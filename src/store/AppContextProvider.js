@@ -90,8 +90,7 @@ const contextReducer = (state, action) => {
     if (!state.defaultCoords) {
       action.defaultCoords = state.currentCity;
       const defaultCity = JSON.stringify(state.currentCity);
-      localStorage.default = 'default'
-      alert(localStorage.default)
+      alert(defaultCity);
       localStorage.setItem("default", defaultCity);
       alert(localStorage.getItem("default"));
       return {
@@ -102,8 +101,9 @@ const contextReducer = (state, action) => {
     if (
       state.currentCity &&
       state.defaultCoords &&
-      state.currentCity !== state.defaultCoords
+      state.currentCity[0].name !== state.defaultCoords[0].name
     ) {
+      action.defaultCoords = state.currentCity;
       const defaultCity = JSON.stringify(state.currentCity);
       localStorage.setItem("default", defaultCity);
       return {
@@ -111,13 +111,14 @@ const contextReducer = (state, action) => {
         defaultCoords: action.defaultCoords,
       };
     }
-
-    action.defaultCoords = null;
-    localStorage.removeItem("default");
-    return {
-      ...state,
-      defaultCoords: action.defaultCoords,
-    };
+    if (state.currentCity[0].name === state.defaultCoords[0].name) {
+      console.log(state.currentCity, state.defaultCoords);
+      localStorage.removeItem("default");
+      return {
+        ...state,
+        defaultCoords: null,
+      };
+    }
   }
 };
 
