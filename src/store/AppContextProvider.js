@@ -90,6 +90,8 @@ const contextReducer = (state, action) => {
     if (!state.defaultCoords) {
       action.defaultCoords = state.currentCity;
       const defaultCity = JSON.stringify(state.currentCity);
+      localStorage.default = 'default'
+      alert(localStorage.default)
       localStorage.setItem("default", defaultCity);
       alert(localStorage.getItem("default"));
       return {
