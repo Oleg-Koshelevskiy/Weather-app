@@ -85,6 +85,8 @@ const contextReducer = (state, action) => {
   if (action.type === "CHANGE-DEFAULT") {
     if (!state.currentCity) {
       alert(`${state.lang[1].unchosenCity}`);
+      localStorage.setItem("error", "error-event");
+      alert(localStorage.getItem("error"));
       return state;
     }
     if (state.defaultCoords === null) {
