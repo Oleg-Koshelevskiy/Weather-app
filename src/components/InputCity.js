@@ -19,6 +19,9 @@ const InputCity = (props) => {
   const defaultCityHandler = (event) => {
     if (event.detail === 2) {
       context.changeDefaultCoords();
+      localStorage.setItem("test", "1");
+      const test = localStorage.getItem("test");
+      alert(test);
     }
   };
 
