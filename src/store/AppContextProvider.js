@@ -87,7 +87,7 @@ const contextReducer = (state, action) => {
       alert(`${state.lang[1].unchosenCity}`);
       return state;
     }
-    if (!state.defaultCoords) {
+    if (state.defaultCoords === null) {
       action.defaultCoords = state.currentCity;
       const defaultCity = JSON.stringify(state.currentCity);
       alert(defaultCity);
