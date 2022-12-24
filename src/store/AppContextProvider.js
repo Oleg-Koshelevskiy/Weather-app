@@ -88,9 +88,11 @@ const contextReducer = (state, action) => {
       return state;
     }
     if (!state.defaultCoords) {
+      alert("case1-1");
       const defaultCity = JSON.stringify(state.currentCity);
       localStorage.setItem("default", defaultCity);
       action.defaultCoords = state.currentCity;
+      alert("case1-2");
       return {
         ...state,
         defaultCoords: action.defaultCoords,
@@ -101,16 +103,20 @@ const contextReducer = (state, action) => {
       state.defaultCoords &&
       state.currentCity[0].name !== state.defaultCoords[0].name
     ) {
+      alert("case2-1");
       const defaultCity = JSON.stringify(state.currentCity);
       localStorage.setItem("default", defaultCity);
       action.defaultCoords = state.currentCity;
+      alert("case2-2");
       return {
         ...state,
         defaultCoords: action.defaultCoords,
       };
     }
     if (state.currentCity[0].name === state.defaultCoords[0].name) {
+      alert("case3-1");
       localStorage.removeItem("default");
+      alert("case3-2");
       return {
         ...state,
         defaultCoords: null,
