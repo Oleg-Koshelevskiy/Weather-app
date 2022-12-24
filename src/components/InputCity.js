@@ -77,9 +77,9 @@ const InputCity = (props) => {
         {forecastType}
       </Button>
       <br />
-      <h3 onClick={defaultCityHandler} className={cityHeaderStyle}>
+      <button onClick={defaultCityHandler} className={cityHeaderStyle}>
         {cityHeader}
-      </h3>
+      </button>
     </div>
   );
 };
