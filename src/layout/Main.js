@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useCallback } from "react";
 import InputCity from "../components/InputCity";
 import CurrentWeatherDashboard from "../components/CurrentWeatherDashboard";
 import LongWeatherDashboard from "../components/LongWeatherDashboard";
@@ -22,22 +22,24 @@ const Main = () => {
   if (month >= 9 && month <= 11) season = "seasonAutumn";
 
   const defaultCity = context.defaultCoords?.[0];
-  const coords = context.useCoords;
-  const currentCity = context.addCurrentCity;
 
-  useEffect(() => {
+  const fetchDefaultCity = useCallback(() => {
     if (defaultCity) {
-      coords(defaultCity.coords[0], defaultCity.coords[1]);
-      currentCity(
+      context.useCoords(defaultCity.coords[0], defaultCity.coords[1]);
+      context.addCurrentCity(
         defaultCity.coords[0],
         defaultCity.coords[1],
         defaultCity.name
       );
-      return;
     }
     if (!defaultCity) {
       return;
     }
+  }, [context, defaultCity]);
+
+  useEffect(() => {
+    fetchDefaultCity();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
