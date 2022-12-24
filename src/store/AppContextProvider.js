@@ -122,6 +122,7 @@ const contextReducer = (state, action) => {
         defaultCoords: null,
       };
     }
+    alert("missing all cases");
   }
 };
 
