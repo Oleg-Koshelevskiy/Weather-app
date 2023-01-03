@@ -53,6 +53,9 @@ const Info = () => {
             <img className={styles.marker} src={marker} alt="map-marker" />
           </span>
         </li>
+        <li>
+          {ctx.infoLi6}          
+        </li>
       </ul>
     </Modal>
   );
