@@ -4,7 +4,7 @@ import Errors from "../UI/Errors";
 import AppContext from "./app-context";
 
 const initialContext = {
-  lang: languagePack[0],
+  lang: (localStorage.getItem("lang") === 'ukr') ? languagePack[0] : languagePack[1],
   modal: false,
   info: false,
   currentCity: JSON.parse(localStorage.getItem("default")) || null,
@@ -19,8 +19,14 @@ const initialContext = {
 
 const contextReducer = (state, action) => {
   if (action.type === "LANG") {
-    if (state.lang[0] === "ukr") action.lang = languagePack[1];
-    if (state.lang[0] === "eng") action.lang = languagePack[0];
+    if (state.lang[0] === "ukr") {
+      localStorage.setItem("lang", 'eng')
+      action.lang = languagePack[1]
+    };
+    if (state.lang[0] === "eng") {
+      localStorage.setItem("lang", 'ukr')
+      action.lang = languagePack[0]
+    };
     console.log(action.lang);
     return { ...state, lang: action.lang };
   }
